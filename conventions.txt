@@ -1,0 +1,16 @@
+LP conventions:
+
+* When a macro introduces new variable identifiers which is available
+in a "body" of the form, we surround the identifiers with parens, and
+position them just before the body.  For example,
+
+(sessioned-response (sesh req) body-goes-here-and-may-refer-to-sesh-and-req ...)
+
+Here sesh and req are both identifiers (not expressions bound in the
+enclosing environment.  The inspiration for this convention is lambda,
+in which, in most cases at least, the first argument is a list of
+identifiers.
+
+* When a function takes a single xexpr we often use the identifier
+  "body".  But if the function expects an arbitrary number of xexpr,
+  then we encourage the use of the identifier "bodies".
