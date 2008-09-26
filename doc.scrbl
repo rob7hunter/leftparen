@@ -1,30 +1,27 @@
 #lang scribble/doc
 @(require scribble/manual)
 
-@title{LeftParen 1.3 Documentation}
+@title{LeftParen 0.3 Documentation}
 
 Website: @link["http://leftparen.com"]{http://leftparen.com}
 
 LeftParen is a framework for quickly creating web apps.  It runs on
-PLT Scheme v4.1 or greater.
+PLT Scheme v4.1 or greater.  LeftParen is released under an @link["http://github.com/vegashacker/leftparen/tree/master/MIT-LICENSE.txt"]{MIT License}.  The source is available on @link["http://github.com/vegashacker/leftparen/tree/master"]{github}.
 
 @section{Installing LeftParen}
 
-You'll need PLT Scheme v4.1 or greater installed.  Note that this
-version is not officially released yet, so you you'll need to get it from
-the @link["http://pre.plt-scheme.org/installers/"]{pre-release
-download page}.
+You'll need PLT Scheme v4.1 or greater installed.
 
 Make sure that @scheme[mzscheme] is in your path.  You should be ready
 to go if you can do this:
 
 @verbatim{
 % mzscheme
-Welcome to MzScheme v3.99...
+Welcome to MzScheme v4.1...
 > 
 }
 
-Installing LeftParen is done behind the scenese with a @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require].  See @secref{tutorials} for an example of this.  When you
+Installing LeftParen is done behind the scenes with a @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require].  See @secref{tutorials} for an example of this.  When you
 first issue one of these @scheme[require] commands, you'll automatically download the LeftParen files to your local PLaneT cache.  This can sometimes take a few moments, so be prepared to wait a bit.
 
 @section[#:tag "tutorials"]{Tutorials}
@@ -33,7 +30,7 @@ first issue one of these @scheme[require] commands, you'll automatically downloa
 
 We're going to make a project called @tt{hello-world}.  Change to the directory that you'd like to make the project in.  Then issue
 
-@verbatim{% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 1 2)))' project hello-world}
+@verbatim{% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 1 3)))' project hello-world}
 
 This will create a @tt{hello-world} project directory for you.  In this directory you'll find the @tt{script} directory, which contains some useful scripts.  All paths are relative to this project directory, so when calling scripts, you always want to be at the project root.
 
@@ -62,7 +59,7 @@ Point your browser to @link["http://localhost:8765"]{http://localhost:8765} and 
 Now let's try implementing the true "hello world" of web apps---a blog.  First, execute the following commands from the directory in which you want to create your project directory:
 
 @verbatim{
-% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 1 2)))' project blogerton
+% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 1 3)))' project blogerton
 % cd blogerton
 % chmod u+x script/*
 }
@@ -84,11 +81,11 @@ Now we need to define those pages that we declared in @tt{app.scm}.
 
 @schemeblock[
 (define-page (index-page req)
-  `(h1 "Blogerton")
-  `(p ,(web-link "Create a new post" (page-url create-post-page)))
-  `(ul ,@(map (lambda (p) `(li ,(paint-blog-post p)))
-              (load-where '((type . blog-post))
-                          #:sort-by 'created_at #:compare >))))
+  (** `(h1 "Blogerton")
+      `(p ,(web-link "Create a new post" (page-url create-post-page)))
+      `(ul ,@(map (lambda (p) `(li ,(paint-blog-post p)))
+                  (load-where '((type . blog-post))
+                              #:sort-by 'created-at #:compare >)))))
 
 (define-page (create-post-page req)
   (form '((title "Title" text) (body "Body" long-text))
@@ -110,6 +107,10 @@ You're ready for launch.  Start the server with
 @verbatim{% ./script/server}
 
 and you should have a basic blogging app, with persistent data, in 19 lines of code.
+
+@section{More Documentation to Come}
+
+We need to get a full LeftParen reference up (not just simple tutorials).  There's lots more cool stuff in LeftParen that this document doesn't yet address.
 
 @section{About/Acknowledgements}
 

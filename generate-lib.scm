@@ -7,7 +7,7 @@
 (provide generate generate-from-path)
 
 (define PLANET_MAJOR_VERISON 1)
-(define PLANET_MINOR_VERSION 2)
+(define PLANET_MINOR_VERSION 3)
 
 (define (generate args-vec)
   (generate-from-args-list (vector->list args-vec)))

@@ -1,8 +1,9 @@
 #lang setup/infotab
 (define name "LeftParen")
-(define blurb '("LeftParen lets you make web apps quickly."))
-(define release-notes '("This is still early stage software, so be warned.  That said, feel free to contact me with any issues you encounter.  I'm happy to help out."))
+(define blurb '((p "LeftParen lets you make web apps quickly.")))
+(define release-notes '((p "This is a major upgrade that is now compatible with PLT 4.1.  There are many other miscellaneous improvements too.")))
 (define primary-file "leftparen.scm")
-(define version "0.3")
-(define doc.txt "doc.txt")
+(define scribblings '(("doc.scrbl" ())))
+(define required-core-version "4.1")
+(define repositories '("4.x"))
 (define categories '(devtools net))
