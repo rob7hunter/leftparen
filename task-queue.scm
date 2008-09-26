@@ -1,6 +1,6 @@
 #lang scheme/base
 
-(require "../leftparen/util.scm")
+(require "util.scm")
 
 (provide make-threaded-task-queue sleep-task-thread-for-at-least)
 

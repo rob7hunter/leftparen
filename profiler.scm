@@ -1,6 +1,6 @@
 #lang scheme/base
 
-(require (file "../leftparen/util.scm"))
+(require (file "util.scm"))
 
 (provide profile
          define-profile)

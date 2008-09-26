@@ -3,7 +3,7 @@
 (define blurb '((p "LeftParen lets you make web apps quickly.")))
 (define release-notes '((p "This is a major upgrade that is now compatible with PLT 4.1.  There are many other miscellaneous improvements too.")))
 (define primary-file "leftparen.scm")
-(define scribblings '(("doc.scrbl" ())))
+(define scribblings '(("scribblings/leftparen.scrbl" ())))
 (define required-core-version "4.1")
 (define repositories '("4.x"))
 (define categories '(devtools net))
