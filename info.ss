@@ -7,3 +7,4 @@
 (define required-core-version "4.1")
 (define repositories '("4.x"))
 (define categories '(devtools net))
+(define version "0.3")
