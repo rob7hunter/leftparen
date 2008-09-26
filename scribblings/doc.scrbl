@@ -30,7 +30,7 @@ first issue one of these @scheme[require] commands, you'll automatically downloa
 
 We're going to make a project called @tt{hello-world}.  Change to the directory that you'd like to make the project in.  Then issue
 
-@verbatim{% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 1 3)))' project hello-world}
+@verbatim{% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 2 0)))' project hello-world}
 
 This will create a @tt{hello-world} project directory for you.  In this directory you'll find the @tt{script} directory, which contains some useful scripts.  All paths are relative to this project directory, so when calling scripts, you always want to be at the project root.
 
