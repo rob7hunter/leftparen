@@ -30,7 +30,7 @@ first issue one of these @scheme[require] commands, you'll automatically downloa
 
 We're going to make a project called @tt{hello-world}.  Change to the directory that you'd like to make the project in.  Then issue
 
-@verbatim{% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 2 1)))' project hello-world}
+@verbatim{% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 2 2)))' project hello-world}
 
 This will create a @tt{hello-world} project directory for you.  In this directory you'll find the @tt{script} directory, which contains some useful scripts.  All paths are relative to this project directory, so when calling scripts, you always want to be at the project root.
 
@@ -59,7 +59,7 @@ Point your browser to @link["http://localhost:8765"]{http://localhost:8765} and 
 Now let's try implementing the true "hello world" of web apps---a blog.  First, execute the following commands from the directory in which you want to create your project directory:
 
 @verbatim{
-% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 2 1)))' project blogerton
+% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 2 2)))' project blogerton
 % cd blogerton
 % chmod u+x script/*
 }
