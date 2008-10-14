@@ -187,6 +187,8 @@
  ;; task queues
  make-threaded-task-queue
  sleep-task-thread-for-at-least
+ task-inspector-lock
+ task-inspector-num-tasks-thunk
 
  )
 
