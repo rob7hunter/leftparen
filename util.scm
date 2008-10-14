@@ -75,6 +75,7 @@
          hash-singleton-value
          hash-filter-map
          hash-hash-map
+         hash-find
          bucketed-hash-add!
          fold ;(iterative-style)
          fold-right ;(recursive-style)
@@ -318,6 +319,10 @@
   (let ((fresh-ht (make-hash)))
     (hash-for-each ht (lambda (k v) (hash-set! fresh-ht k (fn k v))))
     fresh-ht))
+
+;; fn : key X val -> #f | alpha
+(define (hash-find ht fn)
+  (find (lambda (k) (fn k (hash-ref ht k))) (hash-keys ht)))
 
 (define (bucketed-hash-add! bht key val)
   (hash-set! bht key (cons val (hash-ref bht key '()))))
