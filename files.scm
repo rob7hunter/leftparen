@@ -18,6 +18,6 @@
 
 (define (fresh-filename-id filename #:id-length (id-length 5))
   (let ((try (string-append (random-key-string id-length) "-" filename)))
-    (if (file-exists? (build-path "../filedata" try))
+    (if (file-exists? (build-path *PATH_TO_FILEDATA* try))
         (fresh-filename-id filename #:id-length id-length)
         try)))
