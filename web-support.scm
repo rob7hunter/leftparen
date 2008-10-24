@@ -3,6 +3,8 @@
 (require (file "util.scm")
          (lib "xml.ss" "xml")
          net/url
+         scheme/serialize
+         (only-in scheme/contract provide/contract)
          (planet "web.scm" ("soegaard" "web.plt" 2 1))
          )
 
@@ -22,6 +24,8 @@
          url+query
          url->string
          get-url
+         bindings/string
+         find-binding
          )
 
 (define (list-response content-lst #:type (type #"text/html") #:extras (extras '()))
@@ -38,6 +42,37 @@
     (make-response/full 200 "all good" (current-seconds)
                         type (cons no-cache extras)
                         content-lst)))
+
+(define-serializable-struct binding/string (id))
+(define-serializable-struct (binding/string:form binding/string) (value))
+(define-serializable-struct (binding/string:file binding/string) (filename content))
+(provide/contract
+  [struct binding/string ([id string?])]
+  [struct (binding/string:form binding/string) ([id string?]
+                                                [value string?])]
+  [struct (binding/string:file binding/string) ([id string?]
+                                                [filename string?]
+                                                [content bytes?])])
+
+(define (bindings/string req [localization-function bytes->string/utf-8])
+  (map (lambda (binding)
+         (if (binding:form? binding)
+           (make-binding/string:form (localization-function (binding-id binding))
+                                     (localization-function (binding:form-value binding)))
+           (make-binding/string:file (localization-function (binding-id binding))
+                                     (localization-function (binding:file-filename binding))
+                                     (binding:file-content binding))))
+       (request-bindings/raw req)))
+
+(define (find-binding field bindings)
+; strait from request-struct.ss
+  (match bindings
+    [(list)
+     #f]
+    [(list-rest (and b (struct binding/string (i))) bindings)
+     (if (string=? field i)
+         b
+         (find-binding field bindings))]))
 
 ;; if you are doing a post, this gives you post and get vars.  if a get, it's just reg.
 (define (request-all-bindings req)
