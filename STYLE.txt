@@ -1,0 +1,38 @@
+Style guide to writing code for the LeftParen project:
+======================================================
+
+* No line can be longer than 90 chars wide (occasionally, exceptions are allowed when it's
+  a long string or something like that.
+
+* Comments at the beginning of a line need to use two semicolons.  Comments that appear
+  at the end of a line use one.  E.g.,
+
+  ;; use two semicolons for this case
+  (define x (cool beans)) ; and one for this
+
+* For important, non-helper functions, you optionally may consider a "header comment".
+  The idea is that you visially offset the function as being important, and potentially
+  provide an explanation as to its use.  For example,
+
+  ;;
+  ;; my-great-fn
+  ;; 
+  (define (my-great-fn x)
+    (* x x))
+
+  If you want to comment on that function you would do this (taking care to allways leave
+  a blank comment line at the top and the bottom:
+  
+  ;;
+  ;; my-great-fn
+  ;; 
+  ;; Hello there.  Isn't this a great fn?  It looks a lot like the square function, but
+  ;; I promise you it's not.
+  ;; 
+  (define (my-great-fn x)
+    (* x x))
+
+* All variable names should use standard-scheme-casing.  All "settings" variables should
+  use *EASY_TO_WRITE_WHILE_HOLDING_DOWN_SHIFT_CASING_WITH_ASTERISKS_AT_THE_ENDS*.
+
+
