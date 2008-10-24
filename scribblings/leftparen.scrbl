@@ -1,7 +1,7 @@
 #lang scribble/doc
 @(require scribble/manual)
 
-@title{LeftParen 0.3 Documentation}
+@title{LeftParen 0.4 Documentation}
 
 Website: @link["http://leftparen.com"]{http://leftparen.com}
 
@@ -30,7 +30,7 @@ first issue one of these @scheme[require] commands, you'll automatically downloa
 
 We're going to make a project called @tt{hello-world}.  Change to the directory that you'd like to make the project in.  Then issue
 
-@verbatim{% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 2 2)))' project hello-world}
+@verbatim{% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 3 0)))' project hello-world}
 
 This will create a @tt{hello-world} project directory for you.  In this directory you'll find the @tt{script} directory, which contains some useful scripts.  All paths are relative to this project directory, so when calling scripts, you always want to be at the project root.
 
@@ -59,7 +59,7 @@ Point your browser to @link["http://localhost:8765"]{http://localhost:8765} and 
 Now let's try implementing the true "hello world" of web apps---a blog.  First, execute the following commands from the directory in which you want to create your project directory:
 
 @verbatim{
-% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 2 2)))' project blogerton
+% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 3 0)))' project blogerton
 % cd blogerton
 % chmod u+x script/*
 }
@@ -112,6 +112,45 @@ and you should have a basic blogging app, with persistent data, in 19 lines of c
 
 We need to get a full LeftParen reference up (not just simple tutorials).  There's lots more cool stuff in LeftParen that this document doesn't yet address.
 
+@section{Reference}
+
+@subsection{Forms}
+
+Wouldn't forms documentation be nice?
+
+@defproc[(mystery (a string-dude)) int]
+
+@subsection{Sessions}
+
+A session is an object that allows you to easily store state about individual visitors to your web app.  Sessions are stored on the server as a record with a virtually impossible-to-guess id.  A cookie is left in the user's web browser, which contains a pointer to a particular session id.  These cookies expire one month after creation and, currently, this can't be changed.
+
+@subsubsection{Creating sessions}
+
+@defform[(define-session-page
+           (page-name request-iden session-iden page-args ...) 
+	   body ...)]
+
+This is an alternate to @scheme[define-page], most commonly used in @scheme[main.scm].  The only difference is that after the request identifier, you must provide a session identifier.  For example, to keep a counter (unique to each user), you could write:
+
+@schemeblock[
+(define-session-page (foo-page req sesh)
+  (let ((c (session-get-val sesh 'counter 0)))     
+    (session-put-val! sesh 'counter (+ 1 c))
+    (number->string c)))
+]
+
+When you define a session page, the session is automatically fetched for you (and created if necessary), and bound to the session identifier you provided.
+
+@subsubsection{Accessing sessions}
+
+@defproc[(session-get-val (session session) (key symbol) (missing-val any #f)) any]
+
+@defproc[(session-put-val! (session session) (key symbol) (val any)) session]
+
 @section{About/Acknowledgements}
 
 LeftParen was written by @link["http://robhunter.org"]{Rob Hunter}, but it builds heavily on (and, in fact, often directly incorporates) the work of @link["http://untyped.com/"]{Untyped} (@link["http://planet.plt-scheme.org/display.ss?package=instaservlet.plt&owner=untyped"]{instaservlet} and @link["http://planet.plt-scheme.org/display.ss?package=dispatch.plt&owner=untyped"]{dispatch}), @link["http://scheme.dk/blog/"]{Jens Axel Soegaard} (@link["http://planet.plt-scheme.org/display.ss?package=web.plt&owner=soegaard"]{web.plt}), and of course, @link["http://www.plt-scheme.org/"]{PLT Scheme}.
+
+@subsection{Contributors}
+
+peeps.

@@ -57,8 +57,8 @@
   (store-rec! sesh)
   sesh)
 
-(define (session-get-val sesh key)
-  (rec-prop sesh key))
+(define (session-get-val sesh key (missing-val #f))
+  (rec-prop sesh key missing-val))
 
 (define (session-id sesh)
   (rec-id sesh))
