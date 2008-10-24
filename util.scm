@@ -322,7 +322,8 @@
 
 ;; fn : key X val -> #f | alpha
 (define (hash-find ht fn)
-  (find (lambda (k) (fn k (hash-ref ht k))) (hash-keys ht)))
+  (aand (find (lambda (k) (fn k (hash-ref ht k))) (hash-keys ht))
+        (hash-ref ht it)))
 
 (define (bucketed-hash-add! bht key val)
   (hash-set! bht key (cons val (hash-ref bht key '()))))
