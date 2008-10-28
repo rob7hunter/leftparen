@@ -1,7 +1,7 @@
 #lang scheme/base
 
 (require "util.scm"
-         (planet "digest.ss" ("soegaard" "digest.plt" 1 2))
+         (planet "digest.ss" ("soegaard" "digest.plt" 1 (= 2)))
          "form.scm"
          "repository.scm"
          "record.scm"
