@@ -11,7 +11,8 @@
          (lib "26.ss" "srfi")
          (lib "2.ss" "srfi")
          (only-in (lib "13.ss" "srfi")
-                  string-join string-trim string-trim-right string-trim-both )
+                  string-join string-trim string-trim-right string-trim-both
+                  string-reverse string-reverse!)
          (lib "pregexp.ss")
          
          mzlib/defmacro
@@ -110,6 +111,8 @@
          string-trim
          string-trim-right
          string-trim-both
+         string-reverse
+         string-reverse!
          ->string
          
          pretty-print
