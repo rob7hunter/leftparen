@@ -7,7 +7,8 @@
          "web-support.scm"
          "session.scm"
          "settings.scm"
-         "time.scm")
+         "time.scm"
+         "atom.ss")
 
 (provide define-page
          define-session-page
@@ -20,9 +21,7 @@
          js-inc
          css-inc
          versioned-file-reference
-         atom-item
-         atom-inc
-         atom)
+)
 
 ;;
 ;; define-page
@@ -131,38 +130,12 @@
 (define (js-inc script-filename)
   `(script ((src ,script-filename) (type "text/javascript")) ""))
 
-(define (atom-inc feed)
-  `(link ((rel "alternate") (type "application/atom+xml") (href ,feed))))
-
 (define (rss-inc feed)
-  `((link (href ,feed) (rel "alternate") (type "application/rss+xml") (title "Sitewide RSS Feed")))) 
+  `((link (href ,feed) (rel "alternate") (type "application/rss+xml")
+          (title "Sitewide RSS Feed")))) 
 
 (define (css-inc css-filename)
   `(link ((rel "stylesheet") (type "text/css") (href ,css-filename))))
-
-(define (atom-wrapper feed-title feed-subtitle feed-url url author-name author-email body)
- (list-response #:type #"text/xml"
-                 (list (raw-str "<?xml version=\"1.0\" encoding=\"utf-8\"?>")
-                       `(feed ((xmlns "http://www.w3.org/2005/Atom"))
-                               (title ,feed-title)
-                               (subtitle ,feed-subtitle)
-                               (link ((href ,feed-url) (rel "self")))
-                               (link ((href ,url)))
-                               (updated ,(atom-time-str (current-seconds))" ")
-                               (author (name ,author-name)
-                                        (email ,author-email))
-                               (id ,(urn)) ,body))))
-
-
- (define (atom-item item-title item-link item-summary item-content)
-  `(entry
-    (title ,item-title)
-    (link ((href ,item-link) (rel "self")))
-    (id ,(urn))
-    (updated ,(atom-time-str (current-seconds)))
-    (summary ,item-summary)
-    (content ,item-content)))
-(define (rss-1-wrapper))
 
 ;; filename should be relative to htdocs directory
 ;; XXX I'm not sure this will actually work (does the # trigger a new file refresh?)
