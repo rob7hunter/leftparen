@@ -5,7 +5,8 @@
          (planet "uuid-v4.ss" ("zitterbewegung" "uuid-v4.plt" 1 0)))
 
 (provide  atom-item
-          atom-inc)
+          atom-inc
+          atom-wrapper)
 
 (define (atom-inc feed)
   `(link ((rel "alternate") (type "application/atom+xml") (href ,feed))))
