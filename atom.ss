@@ -1,7 +1,9 @@
 #lang scheme/base
 (require "time.scm"
          "util.scm"
-         "web-support.scm")
+         "web-support.scm"
+         (planet "uuid-v4.ss" ("zitterbewegung" "uuid-v4.plt" 1 0)))
+
 (provide  atom-item
           atom-inc)
 
