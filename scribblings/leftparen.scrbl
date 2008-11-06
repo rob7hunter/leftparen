@@ -153,4 +153,8 @@ LeftParen was written by @link["http://robhunter.org"]{Rob Hunter}, but it build
 
 @subsection{Contributors}
 
-peeps.
+@itemize[
+@item{Bill Hager}
+@item{Joshua Herman}
+]
+

@@ -35,4 +35,5 @@ Style guide to writing code for the LeftParen project:
 * All variable names should use standard-scheme-casing.  All "settings" variables should
   use *EASY_TO_WRITE_WHILE_HOLDING_DOWN_SHIFT_CASING_WITH_ASTERISKS_AT_THE_ENDS*.
 
-
+* Going forward, we want to use .ss as the extension for all Scheme files.  This 
+  apparently plays nicer with the PLT module system.
