@@ -2,10 +2,12 @@
 
 (require (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5))
          (planet "web.scm" ("soegaard" "web.plt" 2 1))
+         (planet "digest.ss" ("soegaard" "digest.plt" 1 1))
          "util.scm"
          "web-support.scm"
          "session.scm"
-         "settings.scm")
+         "settings.scm"
+         "time.scm")
 
 (provide define-page
          define-session-page
@@ -17,7 +19,10 @@
          atom-wrapper
          js-inc
          css-inc
-         versioned-file-reference)
+         versioned-file-reference
+         atom-item
+         atom-inc
+         atom)
 
 ;;
 ;; define-page
@@ -59,6 +64,7 @@
               #:raw-header (raw-header '())
               #:css (css '())
               #:js (js '())
+              #:atom-feed (atom-feed '())
               #:title (title "a LeftParen web app")
               #:body-attrs (body-attrs '())
               #:body-wrap (body-wrap (lambda (body) body))
@@ -74,6 +80,7 @@
           (blank returned-body) ; the type of response is default (text/html)
           (a-design (a-design returned-body))
           (else (let ((main `(html (head ,@(map css-inc css)
+                                         ,@(map atom-inc feed)
                                          ,@(map js-inc js)
                                          ,@(map raw-str raw-header)
                                          (title ,title))
@@ -124,14 +131,38 @@
 (define (js-inc script-filename)
   `(script ((src ,script-filename) (type "text/javascript")) ""))
 
+(define (atom-inc feed)
+  `(link ((rel "alternate") (type "application/atom+xml") (href ,feed))))
+
+(define (rss-inc feed)
+  `((link (href ,feed) (rel "alternate") (type "application/rss+xml") (title "Sitewide RSS Feed")))) 
+
 (define (css-inc css-filename)
   `(link ((rel "stylesheet") (type "text/css") (href ,css-filename))))
 
-(define (atom-wrapper body)
-  (list-response #:type #"text/xml"
+(define (atom-wrapper feed-title feed-subtitle feed-url url author-name author-email body)
+ (list-response #:type #"text/xml"
                  (list (raw-str "<?xml version=\"1.0\" encoding=\"utf-8\"?>")
                        `(feed ((xmlns "http://www.w3.org/2005/Atom"))
-                              ,body))))
+                               (title ,feed-title)
+                               (subtitle ,feed-subtitle)
+                               (link ((href ,feed-url) (rel "self")))
+                               (link ((href ,url)))
+                               (updated ,(atom-time-str (current-seconds))" ")
+                               (author (name ,author-name)
+                                        (email ,author-email))
+                               (id ,(urn)) ,body))))
+
+
+ (define (atom-item item-title item-link item-summary item-content)
+  `(entry
+    (title ,item-title)
+    (link ((href ,item-link) (rel "self")))
+    (id ,(urn))
+    (updated ,(atom-time-str (current-seconds)))
+    (summary ,item-summary)
+    (content ,item-content)))
+(define (rss-1-wrapper))
 
 ;; filename should be relative to htdocs directory
 ;; XXX I'm not sure this will actually work (does the # trigger a new file refresh?)
