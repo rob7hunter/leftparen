@@ -99,6 +99,7 @@
                 #:css (css '())
                 #:js (js '())
                 #:title (title "a LeftParen web app")
+                #:atom-feed (atom-feed '())
                 #:doc-type (doc-type #f) ; automatically "rawed" for you
                 #:body-attrs (body-attrs '())
                 #:body-wrap (body-wrap (lambda (body) body)))
