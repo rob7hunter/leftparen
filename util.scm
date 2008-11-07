@@ -23,7 +23,7 @@
          (lib "unit.ss")
 
          srfi/27
-         (planet "uuid-v4.ss" ("zitterbewegung" "uuid-v4.plt" 1 0)))
+         )
 
 (provide first
          second
@@ -151,8 +151,6 @@
 
          sync-on-lock
          make-lock
-
-         urn
          )
 
 (define (random-choice lst)
