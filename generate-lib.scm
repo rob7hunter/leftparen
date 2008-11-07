@@ -1,13 +1,16 @@
 #lang scheme/base
+
+;;
 ;; code to generate basic files and folders needed for a project
+;;
 
 (require "util.scm"
          (only-in mzlib/file normalize-path))
 
 (provide generate generate-from-path)
 
-(define PLANET_MAJOR_VERISON 2)
-(define PLANET_MINOR_VERSION 2)
+(define PLANET_MAJOR_VERISON 3)
+(define PLANET_MINOR_VERSION 0)
 
 (define (generate args-vec)
   (generate-from-args-list (vector->list args-vec)))
