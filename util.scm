@@ -22,7 +22,8 @@
          (planet "web.scm" ("soegaard" "web.plt" 2 1)) ; XXX get rid of this dependency
          (lib "unit.ss")
 
-         srfi/27)
+         srfi/27
+         (planet "uuid-v4.ss" ("zitterbewegung" "uuid-v4.plt" 1 0)))
 
 (provide first
          second
