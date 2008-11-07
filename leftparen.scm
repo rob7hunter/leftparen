@@ -21,6 +21,7 @@
          "profiler.scm"
          "log.scm"
          "task-queue.scm"
+         "atom.ss"
          )
 
 (provide
@@ -54,6 +55,15 @@
  form-id
  form-markup
  grab-user-input
+
+ ;;Feeds 
+ atom-item
+ atom-inc
+ atom-wrapper
+ rss-inc
+ rss-wrapper
+ rss-item
+ rss-li
  
  ;; records and the data repository
  rec-prop

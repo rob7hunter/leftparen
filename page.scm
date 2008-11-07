@@ -8,7 +8,8 @@
          "session.scm"
          "settings.scm"
          "time.scm"
-         "atom.ss")
+         "atom.ss"
+         "rss.ss")
 
 (provide define-page
          define-session-page
@@ -129,11 +130,7 @@
   `(group ,@bodies))
 
 (define (js-inc script-filename)
-  `(script ((src ,script-filename) (type "text/javascript")) ""))
-
-(define (rss-inc feed)
-  `((link (href ,feed) (rel "alternate") (type "application/rss+xml")
-          (title "Sitewide RSS Feed")))) 
+  `(script ((src ,script-filename) (type "text/javascript")) "")) 
 
 (define (css-inc css-filename)
   `(link ((rel "stylesheet") (type "text/css") (href ,css-filename))))

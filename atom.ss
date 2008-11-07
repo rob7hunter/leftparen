@@ -8,8 +8,8 @@
           atom-inc
           atom-wrapper)
 
-(define (atom-inc feed)
-  `(link ((rel "alternate") (type "application/atom+xml") (href ,feed))))
+(define (atom-inc feed-url)
+  `(link ((rel "alternate") (type "application/atom+xml") (href ,feed-url))))
 
 (define (atom-wrapper feed-title
                       feed-subtitle
@@ -17,8 +17,8 @@
                       url
                       author-name
                       author-email
-                      body)
-  (list-response #:type #"text/xml"
+                      . body)
+ (list-response #:type #"text/xml"
                  (list (raw-str "<?xml version=\"1.0\" encoding=\"utf-8\"?>")
                        `(feed ((xmlns "http://www.w3.org/2005/Atom"))
                               (title ,feed-title)
