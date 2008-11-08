@@ -1,3 +1,4 @@
+#lang scheme/base
 (require "util.scm"
          "web-support.scm")
 
@@ -35,7 +36,7 @@
                           (items 
                                  (rdf:Seq  
                                   ,@item-list)))
-                         ,@body)))
+                         ,@body))))
 ;;Rss list creator 
 (define (rss-li resource-link)
   `(rdf:li ((resource ,resource-link))))
