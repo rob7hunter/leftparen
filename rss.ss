@@ -9,8 +9,8 @@
 
 ;;Rss autodiscovery feed include.
 (define (rss-inc feed-url)
-  `(link (href ,feed-url) (rel "alternate") (type "application/rss+xml")
-          (title "Sitewide RSS Feed")))
+  `(link ((href ,feed-url) (rel "alternate") (type "application/rss+xml")
+          (title "Sitewide RSS Feed"))))
 
 ;;Main wrapper function for rss 1.0
 (define (rss-wrapper about
