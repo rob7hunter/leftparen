@@ -4,7 +4,6 @@
          (planet "web.scm" ("soegaard" "web.plt" 2 1))
          (planet "instaservlet.ss" ("untyped" "instaservlet.plt" 1 7))
          (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5))
-         (planet "javascript.ss" ("jaymccarthy" "javascript.plt" 1 2))
          "util.scm"
          "settings.scm"
          "web-support.scm"
