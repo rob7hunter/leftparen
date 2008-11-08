@@ -4,6 +4,7 @@
          (planet "web.scm" ("soegaard" "web.plt" 2 1))
          (planet "instaservlet.ss" ("untyped" "instaservlet.plt" 1 7))
          (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5))
+         (planet "javascript.ss" ("jaymccarthy" "javascript.plt" 1 2))
          "util.scm"
          "settings.scm"
          "web-support.scm"
@@ -32,7 +33,7 @@
              comment?)
  (all-from-out (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5)))
  (all-from-out (planet "instaservlet.ss" ("untyped" "instaservlet.plt" 1 7)))
-
+ (all-from-out (planet "javascript.ss" ("jaymccarthy" "javascript.plt" 1 2)))
  ;; web server
  serve
  define-app
@@ -137,12 +138,6 @@
  js-quote
  js-call
  js-call-on-load
- js
- javascript
- javascript-marshal
- javascript-unmarshal
- javascript->string
- string->javascript
  
  ;; html, pages, includes, etc
  define-page
