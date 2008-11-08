@@ -22,6 +22,7 @@
          "log.scm"
          "task-queue.scm"
          "atom.ss"
+         "rss.ss"
          )
 
 (provide
