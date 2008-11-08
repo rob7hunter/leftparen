@@ -110,8 +110,8 @@
   (lambda (body) (page #:doc-type doc-type
                        #:raw-header raw-header
                        #:css css
-                       #:atom-feed atom
-                       #:rss-feed rss
+                       #:atom-feed atom-feed
+                       #:rss-feed rss-feed
                        #:js js
                        #:title title
                        #:body-attrs body-attrs
