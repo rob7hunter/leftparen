@@ -1,12 +1,20 @@
 #lang scheme/base
 
-(require "util.scm")
+(require "util.scm"
+         (planet "javascript.ss" ("jaymccarthy" "javascript.plt" 1 2)))
 
 (provide js-script-invoke
          js-array
          js-quote
          js-call
          js-call-on-load
+         ;;Javascript s-expression syntax
+         js
+         javascript
+         javascript-marshal
+         javascript-unmarshal
+         javascript->string
+         string->javascriptx
          )
 
 (define (js-script-invoke . js-strs)

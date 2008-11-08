@@ -137,7 +137,13 @@
  js-quote
  js-call
  js-call-on-load
-
+ js
+ javascript
+ javascript-marshal
+ javascript-unmarshal
+ javascript->string
+ string->javascript
+ 
  ;; html, pages, includes, etc
  define-page
  define-session-page
