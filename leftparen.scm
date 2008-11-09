@@ -32,7 +32,7 @@
              comment?)
  (all-from-out (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5)))
  (all-from-out (planet "instaservlet.ss" ("untyped" "instaservlet.plt" 1 7)))
- (all-from-out (planet "javascript.ss" ("jaymccarthy" "javascript.plt" 1 2)))
+ 
  ;; web server
  serve
  define-app
