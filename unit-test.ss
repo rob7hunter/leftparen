@@ -1,3 +1,4 @@
+#lang scheme
 (require (planet "main.ss" ("schematics" "schemeunit.plt" 3 (= 3)))
          (planet "text-ui.ss" ("schematics" "schemeunit.plt" 3 (= 3))))
                  
