@@ -39,7 +39,7 @@
       (e "The directory ~A already exists." fresh-project-path)
       (begin (ensure-existence-of-dir! fresh-project-path)
              (ensure-existence-of-dir! (build-path fresh-project-path "data"))
-             (ensure-existence-of-dir! (build-path fresh-project-path "filedata"))
+             (ensure-existence-of-dir! (build-path fresh-project-path "uploaded-files"))
              (ensure-existence-of-dir! (build-path fresh-project-path "htdocs"))
              (ensure-existence-of-dir! (build-path fresh-project-path "htdocs/css"))
              (ensure-existence-of-dir! (build-path fresh-project-path "htdocs/js"))

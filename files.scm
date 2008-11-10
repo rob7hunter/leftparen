@@ -4,14 +4,15 @@
          (file "web-support.scm")
          "settings.scm")
 
-(provide save-uploaded-file!)
+(provide save-uploaded-file-and-return-filename!)
 
-(declare-setting *PATH_TO_FILEDATA* (build-path (current-directory) "filedata"))
+(declare-setting *PATH_TO_FILEDATA* (build-path (current-directory) "uploaded-files"))
 
-(define (save-uploaded-file! file-data)
+(define (save-uploaded-file-and-return-filename! file-data)
   (let* ((filename (fresh-filename-id (binding/string:file-filename file-data)))
-        (raw-file-bytes (binding/string:file-content file-data))
-        (fport (open-output-file (build-path (setting *PATH_TO_FILEDATA*) filename) #:exists 'error)))
+         (raw-file-bytes (binding/string:file-content file-data))
+         (fport (open-output-file (build-path (setting *PATH_TO_FILEDATA*) filename)
+                                  #:exists 'error)))
     (write-bytes raw-file-bytes fport)
     (close-output-port fport)
     filename))

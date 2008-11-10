@@ -37,3 +37,5 @@ Style guide to writing code for the LeftParen project:
 
 * Going forward, we want to use .ss as the extension for all Scheme files.  This 
   apparently plays nicer with the PLT module system.
+
+* Don't use [ or ].  Just use ( and ) all the time.

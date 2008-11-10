@@ -104,8 +104,10 @@
              ;; it gets a #f assigned to it:
              (relevant-req-bindings
               (map (match-lambda ((list name label type)
-                                  (cons name (field-value-lift (find-binding (symbol->string name) bindings)
-                                                               type))))
+                                  (cons name
+                                        (field-value-lift (find-binding
+                                                           (symbol->string name) bindings)
+                                                          type))))
                    fields))
              (data (alist-merge init-data relevant-req-bindings))
              (a-rec (if (rec? init)
@@ -226,20 +228,21 @@
 
 ;; go from form value to Scheme value
 (define (field-value-lift field-val field-type)
-(cond
-; checkbox?
-  [(and (equal? field-type 'checkbox) (binding/string:form? field-val))
-   (if (equal? (binding/string:form-value field-val) "on") #t #f)]
-; number?
-  [(and (equal? field-type 'number) (binding/string:form? field-val))
-   (string->number (binding/string:form-value field-val))]
-; image?
-  [(and (equal? field-type 'image) (binding/string:file? field-val))
-   (save-uploaded-file! field-val)]
-; else
-  [else (if (and (binding/string:form? field-val) (string=? (binding/string:form-value field-val) ""))
-            #f
-            (binding/string:form-value field-val))]))
+  (cond
+   ;; checkbox?
+   ((and (equal? field-type 'checkbox) (binding/string:form? field-val))
+    (if (equal? (binding/string:form-value field-val) "on") #t #f))
+   ;; number?
+   ((and (equal? field-type 'number) (binding/string:form? field-val))
+    (string->number (binding/string:form-value field-val)))
+   ;; image?
+   ((and (equal? field-type 'image) (binding/string:file? field-val))
+    (save-uploaded-file-and-return-filename! field-val))
+   ;; else
+   (else (if (and (binding/string:form? field-val)
+                  (string=? (binding/string:form-value field-val) ""))
+             #f
+             (binding/string:form-value field-val)))))
 
 (define (paint-rich-text-editor field-name field-value form-id)
   `(div ((class "yui-skin-sam"))
