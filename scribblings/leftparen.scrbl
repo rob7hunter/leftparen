@@ -108,17 +108,31 @@ You're ready for launch.  Start the server with
 
 and you should have a basic blogging app, with persistent data, in 19 lines of code.
 
-@section{More Documentation to Come}
-
-We need to get a full LeftParen reference up (not just simple tutorials).  There's lots more cool stuff in LeftParen that this document doesn't yet address.
-
 @section{Reference}
 
 @subsection{Forms}
 
-Wouldn't forms documentation be nice?
+Most web applications make some use of web forms.  The @scheme[form] function lets easily you get and process input from your users.
 
-@defproc[(mystery (a string-dude)) int]
+@defproc[(form (field-specs (listof field-spec?))) xexpr?]
+@defthing[field-spec? (list symbol? string? field-type?)]
+@defthing[field-type? (or/c 'text 'long-text 'number 'password 'image 'checkbox
+		            'radio 'drop-down)]
+
+You create a form by listing, in order, "field specifications".  For example, you might want a title field, followed by a description text box, followed by a photo upload field.  Note that the many keyword arguments available to the @scheme[form] function aren't documented yet.
+
+Each field spec is of the form @scheme[(field-name label field-type)].  For example, you create a title field, you might use the spec @scheme[(title "Enter a title" text)].  The entire example metioned above might look like this:
+
+@schemeblock[
+(form '((title "Title" text) 
+        (description "Description" long-text)
+        (photo "Your photo" image)))
+]
+
+
+@subsubsection{Image uploads}
+
+By default, uploaded images are stored in the @tt{uploaded-files} directory in your project directory.  You can customize this with the @scheme[*PATH_TO_UPLOADED_FILES*] setting.  When images are saved, their original filenames are used with a 5-character code pre-pended to make filenames unique.
 
 @subsection{Sessions}
 
