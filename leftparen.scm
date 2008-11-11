@@ -21,6 +21,8 @@
          "profiler.scm"
          "log.scm"
          "task-queue.scm"
+         "atom.ss"
+         "rss.ss"
          )
 
 (provide
@@ -30,7 +32,7 @@
              comment?)
  (all-from-out (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5)))
  (all-from-out (planet "instaservlet.ss" ("untyped" "instaservlet.plt" 1 7)))
-
+ 
  ;; web server
  serve
  define-app
@@ -54,6 +56,15 @@
  form-id
  form-markup
  grab-user-input
+
+ ;;Feeds 
+ atom-item
+ atom-inc
+ atom-wrapper
+ rss-inc
+ rss-wrapper
+ rss-item
+ rss-li
  
  ;; records and the data repository
  rec-prop
@@ -126,7 +137,7 @@
  js-quote
  js-call
  js-call-on-load
-
+ 
  ;; html, pages, includes, etc
  define-page
  define-session-page

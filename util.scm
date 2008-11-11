@@ -20,7 +20,10 @@
          scheme/match
          (lib "pretty.ss")
          (planet "web.scm" ("soegaard" "web.plt" 2 1)) ; XXX get rid of this dependency
-         (lib "unit.ss"))
+         (lib "unit.ss")
+
+         srfi/27
+         )
 
 (provide first
          second
@@ -148,7 +151,6 @@
 
          sync-on-lock
          make-lock
-         
          )
 
 (define (random-choice lst)

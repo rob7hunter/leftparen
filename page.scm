@@ -2,10 +2,14 @@
 
 (require (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5))
          (planet "web.scm" ("soegaard" "web.plt" 2 1))
+         (planet "digest.ss" ("soegaard" "digest.plt" 1 1))
          "util.scm"
          "web-support.scm"
          "session.scm"
-         "settings.scm")
+         "settings.scm"
+         "time.scm"
+         "atom.ss"
+         "rss.ss")
 
 (provide define-page
          define-session-page
@@ -17,7 +21,8 @@
          atom-wrapper
          js-inc
          css-inc
-         versioned-file-reference)
+         versioned-file-reference
+)
 
 ;;
 ;; define-page
@@ -59,6 +64,8 @@
               #:raw-header (raw-header '())
               #:css (css '())
               #:js (js '())
+              #:atom-feed (atom-feed '())
+              #:rss-feed (rss-feed '())
               #:title (title "a LeftParen web app")
               #:body-attrs (body-attrs '())
               #:body-wrap (body-wrap (lambda (body) body))
@@ -74,6 +81,8 @@
           (blank returned-body) ; the type of response is default (text/html)
           (a-design (a-design returned-body))
           (else (let ((main `(html (head ,@(map css-inc css)
+                                         ,@(map atom-inc atom-feed)
+                                         ,@(map rss-inc rss-feed)
                                          ,@(map js-inc js)
                                          ,@(map raw-str raw-header)
                                          (title ,title))
@@ -93,12 +102,16 @@
                 #:css (css '())
                 #:js (js '())
                 #:title (title "a LeftParen web app")
+                #:atom-feed (atom-feed '())
+                #:rss-feed (rss-feed '())
                 #:doc-type (doc-type #f) ; automatically "rawed" for you
                 #:body-attrs (body-attrs '())
                 #:body-wrap (body-wrap (lambda (body) body)))
   (lambda (body) (page #:doc-type doc-type
                        #:raw-header raw-header
                        #:css css
+                       #:atom-feed atom-feed
+                       #:rss-feed rss-feed
                        #:js js
                        #:title title
                        #:body-attrs body-attrs
@@ -122,16 +135,10 @@
   `(group ,@bodies))
 
 (define (js-inc script-filename)
-  `(script ((src ,script-filename) (type "text/javascript")) ""))
+  `(script ((src ,script-filename) (type "text/javascript")) "")) 
 
 (define (css-inc css-filename)
   `(link ((rel "stylesheet") (type "text/css") (href ,css-filename))))
-
-(define (atom-wrapper body)
-  (list-response #:type #"text/xml"
-                 (list (raw-str "<?xml version=\"1.0\" encoding=\"utf-8\"?>")
-                       `(feed ((xmlns "http://www.w3.org/2005/Atom"))
-                              ,body))))
 
 ;; filename should be relative to htdocs directory
 ;; XXX I'm not sure this will actually work (does the # trigger a new file refresh?)
