@@ -39,3 +39,10 @@ Style guide to writing code for the LeftParen project:
   apparently plays nicer with the PLT module system.
 
 * Don't use [ or ].  Just use ( and ) all the time.
+
+* If you ever need to "require" another planet library, use the "=" syntax for the minor
+  mode version.  This locks in that version so that if someone is using LeftParen in, say,
+  production, they don't get automatically upgraded.  E.g.,
+  
+  (planet "foo.ss" ("somebody" "baz.plt" 2 (= 1)))
+
