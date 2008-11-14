@@ -9,7 +9,7 @@
    "LeftParen basic test suite"
    ;;                              actual:        expected:
    (test-equal? "numeric equality" 1              1        )
-   (test-equal? "md5 hashing"      (md5 "hello")  "5d41402abc4b2a76b9719d911017c592")
+   (test-equal? "md5 hashing" (md5-string "hello") "5d41402abc4b2a76b9719d911017c592")
    ))
 
 (run-tests basic-tests)

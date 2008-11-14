@@ -7,7 +7,8 @@
          "web-support.scm"
          "closures.scm"
          "settings.scm"
-         "session.scm")
+         "session.scm"
+         "page.scm")
 
 (provide current-user
          user-in
@@ -81,8 +82,7 @@
 ;; returns a user-rec if successful; #f o/w
 (define (authenticated-login! username password sesh)
   (aand (get-user-rec username)
-        (and (string=? (md5 (string->bytes/utf-8 (string-append password
-                                                                (rec-prop it 'salt))))
+        (and (string=? (md5-string (string-append password (rec-prop it 'salt)))
                        (rec-prop it 'hashed-pass))
              (begin (session-put-val! sesh 'logged_in_as (rec-id it))
                     it))))
@@ -104,28 +104,23 @@
 ;; MMM any way to redirect back to the "current page" before the closure invocation?
 
 (define (welcome-message sesh
-                         #:redirect-to (url (setting *WEB_APP_URL*))
-                         #:no-register (no-register #f)
-                         #:on-login-success (on-login-success #f))
+                         #:on-success (success-fn #f)
+                         #:no-register (no-register #f))
   (if-login sesh (u)
-            `(group ,(format "Welcome, ~A " (rec-prop u 'username))
-                    ,(web-link "Sign out" (body-as-url (r)
-                                                       (logout-user! sesh)
-                                                       (redirect-to url))))
-            `(group ,(web-link "Sign in" (body-as-url (r) (login-form sesh
-                                                                      #:on-success
-                                                                      on-login-success)))
-                    ,@(splice-if
-                       (not no-register)
-                       `(group " or "
-                               ,(web-link "Register"
-                                          (body-as-url
-                                           (r)
-                                           (register-form sesh
-                                                          #:redirect-to url))))))))
+            (** (format "Welcome, ~A " (rec-prop u 'username))
+                (web-link "Sign out" (body-as-url (r)
+                                                  (logout-user! sesh)
+                                                  (redirect-to (setting *WEB_APP_URL*)))))
+            (** (web-link "Sign in" (body-as-url (r) (login-form sesh
+                                                                 #:on-success success-fn)))
+                (xexpr-if (not no-register)
+                          (** " or "
+                              (web-link "Register"
+                                        (body-as-url
+                                         (r)
+                                         (register-form sesh
+                                                        #:on-success success-fn))))))))
 
-;; XXX what about a "group" function which is just well, you know...
-  
 (define (login-form sesh
                     #:on-success (success-fn #f)
                     #:error-wrapper (error-wrapper default-error-wrapper))
@@ -190,7 +185,7 @@
                                            (retype-password . ,pass)))))
     (or (user-registration-validator throw-away)
         (let* ((salt (random-key-string 20))
-               (hashed-pass (md5 (string->bytes/utf-8 (string-append pass salt))))
+               (hashed-pass (md5-string (string-append pass salt)))
                (new-user (fresh-rec-from-data `((type . user)
                                                 (username . ,username)
                                                 (hashed-pass . ,hashed-pass)
@@ -224,7 +219,7 @@
 (define (make-fresh-user user-reg-rec sesh)
   (let* ((pass (rec-prop user-reg-rec 'password))
          (salt (random-key-string 20))
-         (hashed-pass (md5 (string->bytes/utf-8 (string-append pass salt))))
+         (hashed-pass (md5-string (string-append pass salt)))
          (new-user (fresh-rec-from-data `((type . user)
                                           (username . ,(rec-prop user-reg-rec 'username))
                                           (hashed-pass . ,hashed-pass)

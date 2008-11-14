@@ -22,8 +22,7 @@
          (planet "web.scm" ("soegaard" "web.plt" 2 1)) ; XXX get rid of this dependency
          (lib "unit.ss")
 
-         (only-in  file/md5
-                   (md5 md5-bytes))
+         (only-in  file/md5 md5)
          
          )
 
@@ -153,7 +152,7 @@
          sync-on-lock
          make-lock
 
-         md5
+         md5-string
          )
 
 (define (random-choice lst)
@@ -573,8 +572,8 @@
 (define (make-lock)
   (make-semaphore 1))
 
-(define (md5 str)
-  (bytes->string/utf-8 (md5-bytes (string->bytes/utf-8 str))))
+(define (md5-string str)
+  (bytes->string/utf-8 (md5 (string->bytes/utf-8 str))))
 
 ;; pretty printing:
 (print-hash-table #t)
