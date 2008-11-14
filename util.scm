@@ -22,7 +22,9 @@
          (planet "web.scm" ("soegaard" "web.plt" 2 1)) ; XXX get rid of this dependency
          (lib "unit.ss")
 
-         srfi/27
+         (only-in  file/md5
+                   (md5 md5-bytes))
+         
          )
 
 (provide first
@@ -37,7 +39,6 @@
          replace-i
          transform-i
          iota
-;         for
          zip
          unzip1
          unzip2
@@ -151,6 +152,8 @@
 
          sync-on-lock
          make-lock
+
+         md5
          )
 
 (define (random-choice lst)
@@ -569,6 +572,9 @@
 
 (define (make-lock)
   (make-semaphore 1))
+
+(define (md5 str)
+  (bytes->string/utf-8 (md5-bytes (string->bytes/utf-8 str))))
 
 ;; pretty printing:
 (print-hash-table #t)
