@@ -161,6 +161,25 @@ When you define a session page, the session is automatically fetched for you (an
 
 @defproc[(session-put-val! (session session) (key symbol) (val any)) session]
 
+
+@subsection{Users}
+
+LeftParen provides built-in functionality for dealing with users, including registering users, logging users in and out, and storing persistent data about users.  To get up-and-running quickly, you can use the high-level @scheme[welcome-message] function:
+
+@defproc[(welcome-message (session session?) (#:on-success success-fn (or/c (-> user? xexpr?) #f) #f) (#:no-register no-register boolean? #f)) xexpr]{The function @scheme[welcome-message] produces a small area of text and links (commonly found in the top-right area of a web app).  If the user is not currently logged in, login and register links are presented.  If the user is logged in, a message welcoming them is displayed, along with a link to log out.}
+
+@defproc[(current-user (session session?)) (or/c user? #f)]{The function @scheme[current-user] returns the current user record, or @scheme[#f] if no user is available in the current session.}
+
+As an example, here is the complete page code for a web app that allows users to register, login and logout, and which prints a secret message if the user is logged in:
+
+@schemeblock[
+(define-session-page (index-page req sesh)
+  (** (welcome-message sesh)
+      (aif (current-user sesh)
+           (format "The secret, ~A, is 42." (rec-prop it 'username))
+           "No secret for you.")))
+]
+
 @section{About/Acknowledgements}
 
 LeftParen was written by @link["http://robhunter.org"]{Rob Hunter}, but it builds heavily on (and, in fact, often directly incorporates) the work of @link["http://untyped.com/"]{Untyped} (@link["http://planet.plt-scheme.org/display.ss?package=instaservlet.plt&owner=untyped"]{instaservlet} and @link["http://planet.plt-scheme.org/display.ss?package=dispatch.plt&owner=untyped"]{dispatch}), @link["http://scheme.dk/blog/"]{Jens Axel Soegaard} (@link["http://planet.plt-scheme.org/display.ss?package=web.plt&owner=soegaard"]{web.plt}), and of course, @link["http://www.plt-scheme.org/"]{PLT Scheme}.
