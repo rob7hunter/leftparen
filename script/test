@@ -1,2 +1,2 @@
-mzscheme -r unit-test.ss
+mzscheme unit-test.ss
 
