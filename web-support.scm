@@ -4,7 +4,8 @@
          (lib "xml.ss" "xml")
          net/url
          scheme/serialize
-         (only-in scheme/contract provide/contract)
+         (rename-in scheme/contract
+                    (any c:any))
          (planet "web.scm" ("soegaard" "web.plt" 2 1))
          )
 
@@ -18,7 +19,6 @@
          img
          raw-str
          with-binding ; from web.plt
-         list-response
          basic-response
          xexpr-if
          url+query
@@ -28,6 +28,22 @@
          find-binding
          )
 
+;;
+;; list-response
+;;
+(define (any-responses? lst)
+  (any (lambda (elt)
+         (or (response/full? elt) (response/incremental? elt) (response/basic? elt)))
+       lst))
+(provide/contract
+ (list-response (->*
+                 ;; required
+                 ((not/c any-responses?))
+                 ;; optional
+                 (#:type bytes? #:extras list?)
+                 ;; returns
+                 response?)))
+;;
 (define (list-response content-lst #:type (type #"text/html") #:extras (extras '()))
   (basic-response (append-map (lambda (content) (map xexpr->string
                                                      (xexpr->de-grouped-xexprs content)))
@@ -47,10 +63,10 @@
 (define-serializable-struct (binding/string:form binding/string) (value))
 (define-serializable-struct (binding/string:file binding/string) (filename content))
 (provide/contract
-  [struct binding/string ([id string?])]
-  [struct (binding/string:form binding/string) ([id string?]
-                                                [value string?])]
-  [struct (binding/string:file binding/string) ([id string?]
+ [struct binding/string ([id string?])]
+ [struct (binding/string:form binding/string) ([id string?]
+                                               [value string?])]
+ [struct (binding/string:file binding/string) ([id string?]
                                                 [filename string?]
                                                 [content bytes?])])
 
