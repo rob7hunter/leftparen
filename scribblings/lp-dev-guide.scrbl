@@ -61,3 +61,5 @@ Check out my patch for LeftParen which fixes one of the worst typos I've ever se
 Thanks,
 Rob
 }
+
+I will then evaluate the patch, and if it all looks good, I'll merge it into the LeftParen master branch.
