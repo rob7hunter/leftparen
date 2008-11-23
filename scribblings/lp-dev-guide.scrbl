@@ -17,9 +17,9 @@ You'll want to familiarize yourself with the basics of GitHub, which is where th
 
 @subsection{Create your own sandbox (fork)}
 
-In the GitHub UI, create a fork of the LeftParen project, which is at @link["http://github.com/vegashacker/leftparen/tree/master"]{http://github.com/vegashacker/leftparen/tree/master}.
+In the GitHub UI, create a fork of the LeftParen project.  LeftParen is located at @link["http://github.com/vegashacker/leftparen/tree/master"]{http://github.com/vegashacker/leftparen/tree/master}.
 
-Get the source on your location machine:
+Grab the LeftParen source:
 
 @verbatim{
 % git clone git://github.com/vegashacker/leftparen.git
@@ -29,8 +29,35 @@ This will create a directory called @tt{leftparen} on your local machine.
 
 @subsection{Creating a branch}
 
-Right now I (Rob) soley evaluate all submitted LeftParen patches.  To keep the process running along smoothly (with high-quality patches getting into mainline LeftParen quickly), and to preserve my sanity, I require that each patch (a bug fix, a particular feature, etc) gets its own branch.  If you try to bundle a bunch of bug fixes and/or feature additions together, it's harder for me to evaluate the patch.  Small patches are less-error prone, and get through the system faster.
+Right now I (Rob) evaluate all proposed LeftParen patches.  To keep the process running along smoothly (with high-quality patches getting into mainline LeftParen quickly), and to preserve my sanity, I require that each patch (a bug fix, a particular feature, etc) gets its own branch.  If you try to bundle a bunch of bug fixes and/or feature additions together, it's hard for me to evaluate an individual patch.  Small, isloated patches are less-error prone, and get through the system faster.
 
-Unless your only purpose is to submit a single patch to LeftParen (and not continue on, say, future patches), you should make a separate (non-master) branch to do your work on.  This way, you can iterate on your patch, committing changes to the branch, and, when done, you can point me to the branch and I can evaluate it separate from other changes you might be working on.  Alternatively, if you did your patch on the master branch, you would essentially have to stop all other LeftParen development because I will only look at single feature/bug patches.
+Unless your only purpose is to submit a single patch to LeftParen (and not to continue working on future LeftParen patches), you should make a separate (non-master) branch to do your work on.  This way, you can iterate on your patch, committing changes to the branch.  When you're done, you can point me to the branch and I can evaluate it separately from any other changes you might be working on.  Alternatively, if you did your patch on the master branch, you would essentially have to stop all other LeftParen development because I will only look at single feature/bug patches.
 
-As an example of the branch and patch process, I'm going to fix a typo in this file.
+As an example of the branch and patch process, I'm going to fix a typo in this file.  First, I create a branch to do some development work on.  I'll call my branch @tt{dev}, in anticipation of it serving as a general purpose development branch.  You might also want to consider creating a branch with a name specific to the patch you are creating--e.g., @tt{fixing-that-typo}.  Once the patch was approved and merged into mainline LeftParen, you would probably want to delete the @tt{fixing-that-typo} branch.
+
+@verbatim{
+% git branch dev (creates a branch named "dev")
+% git checkout dev (switches to the "dev" branch)
+}
+
+I now make the changes I want, using @tt{git add} and @tt{git commit} as needed.  And of course, I use @tt{git diff} often to make sure my patch is what I think it is.  In this case, I only did one small typo fix, and so I just entered
+
+@verbatim{
+% git diff (to make sure it looked right)
+% git add scribblings/lp-dev-guide.scrbl
+% git commit -m "fixed LeftParen improper capitalization"
+% git push origin dev
+}
+
+The last command actually sent @link["http://github.com/vegashacker/leftparen/commit/92609b3dc3779d245dae29ad32c45781119d5c83"]{my patch} to GitHub.  At this point in the process, I would send an email to @tt{support at leftparen dot com}, saying something like
+
+@verbatim{
+Hey Rob,
+
+
+Check out my patch for LeftParen which fixes one of the worst typos I've ever seen.  Because you are totally insane, I have put this patch on its own branch (http://github.com/vegashacker/leftparen/tree/dev).  Enjoy!
+
+
+Thanks,
+Rob
+}
