@@ -40,6 +40,8 @@ As an example of the branch and patch process, I'm going to fix a typo in this f
 % git checkout dev (switches to the "dev" branch)
 }
 
+@subsection{Writing and applying your patch}
+
 I now make the changes I want, using @tt{git add} and @tt{git commit} as needed.  And of course, I use @tt{git diff} often to make sure my patch is what I think it is.  In this case, I only did one small typo fix, and so I just entered
 
 @verbatim{
