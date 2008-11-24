@@ -68,4 +68,13 @@ I will then evaluate the patch, and if it all looks good, I'll merge it into the
 
 @subsection{Keeping in sync with master}
 
-As you are developing on your branch, the code may be moving forward on mainline (@tt{vegashacker/master}).  
+As you are developing on your branch, the code may be moving forward on mainline (@tt{vegashacker/master}).  PLEASE HELP ME UPDATE THIS SECTION IF YOU GET THIS TO WORK.  Something like this should do the trick:
+
+@verbatim{
+% git checkout YOUR_BRANCH (make sure you are on your branch)
+% git stash (if you have any changes that aren't checked in)
+% git pull . git://github.com/vegashacker/leftparen.git (not sure about this line because so far I've only tested it locally, on the same repo; this line should trigger the merge).
+% git stash apply (to re-apply the changes you stashed above)
+}
+
+Again, let me know if there's a better/correct way of doing this.  You'll want to do this often (or, rather, as often as mainline moves forward).
