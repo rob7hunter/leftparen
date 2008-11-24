@@ -65,3 +65,7 @@ Rob
 }
 
 I will then evaluate the patch, and if it all looks good, I'll merge it into the LeftParen master branch.
+
+@subsection{Keeping in sync with master}
+
+As you are developing on your branch, the code may be moving forward on mainline (@tt{vegashacker/master}).  
