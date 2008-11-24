@@ -59,6 +59,8 @@
 ;; * #:raw-header is a list of strings which are inserted directly at the beginning of the
 ;;   <head /> area of the page.
 ;; * #:doc-type should be #f or a str.  If str, it is automatically "rawed".
+;; * #:redirect-to should be #f or a URI str.  If str, the body is evaluated but not
+;;   returned (since you are asking to redirect).
 ;; 
 (define (page #:doc-type (doc-type #f)
               #:raw-header (raw-header '())
@@ -72,9 +74,16 @@
               #:blank (blank #f)
               #:plain-text (plain-text #f)
               #:design (a-design #f)
+              #:redirect-to (redirect-to #f)
               . body)
-  (let ((returned-body (last body)))
-    (cond ((response/full? returned-body) returned-body)
+  (let ((returned-body
+         (if (empty? body)
+             (if (not redirect-to)
+                 (e "Unless you are doing a #:redirect-to, a body is required.")
+                 #f)
+             (last body))))
+    (cond (redirect-to (response-promise-to-redirect redirect-to))
+          ((response/full? returned-body) returned-body)
           (plain-text (basic-response (list returned-body)
                                       ;; Hey, this is probably where we go all unicode...
                                       #:type #"text/plain;  charset=us-ascii"))

@@ -10,7 +10,7 @@
          )
 
 (provide request-all-bindings
-         final-prep-of-response
+         ;; final-prep-of-response (via contract)
          xexpr->de-grouped-xexprs
          wrap-each-in-list
          wrap-each-in-list-with-attrs
@@ -26,6 +26,13 @@
          get-url
          bindings/string
          find-binding
+         ;; list-response (via contract)
+
+         response-promise?
+         ;; single-response-promise-in-list (via contract)
+         ;; response-promise-to-redirect (via contract)
+         ;; response-from-promise (via contract)
+         
          )
 
 ;;
@@ -100,15 +107,9 @@
 (define (group-tag? xexpr)
   (match xexpr ((list-rest 'group children) #t) (else #f)))
 
-(define (final-prep-of-response xexpr-or-response)
-  (let ((result (xexpr->de-grouped-xexprs xexpr-or-response)))
-    (if (and (length= result 1) (response? (first result)))
-        (first result)
-        (list-response result))))
-
 (define (xexpr->de-grouped-xexprs xexpr)
   (cond ((not xexpr) '())
-        ((not (list? xexpr)) (list xexpr))
+        ((not (list? xexpr)) (list xexpr)) ; non-xexpr response case
         ((group-tag? xexpr) (append-map xexpr->de-grouped-xexprs (rest xexpr)))
           (else (receive (tag attrs children) (xexpr->tag*attrs*children xexpr)
                   (list (create-xexpr tag attrs
@@ -196,3 +197,56 @@
     (if exn-handler
         (with-handlers ((exn:fail:network? exn-handler)) (thunk))
         (thunk))))
+
+(define-struct response-promise (fn))
+
+;;
+;; response-promise-to-redirect
+;;
+;; A relatively low-level tool for "promising" to construct a redirect response.  The issue
+;; is that at the time we know we want to redirect, we don't necessarily know all the
+;; headers that we might want to go into the redirect response.  For example, a cookie
+;; may need to be set on the client.  Response promises can never make it to the top-level
+;; (the web server), since they are a LeftParen concept only.  Thus, the promises must
+;; be "response-from-promise"'d before that happens.
+;;
+(provide/contract (response-promise-to-redirect (-> string? response-promise?)))
+;;
+(define (response-promise-to-redirect redirect-to-uri)
+  (make-response-promise (lambda (#:headers (h '())) (redirect-to redirect-to-uri
+                                                                  #:headers h))))
+
+;;
+;; response-from-promise
+;;
+(provide/contract
+ (response-from-promise (->* (response-promise?) (#:headers (listof header?)) response?)))
+;;
+(define (response-from-promise r-p #:headers (headers '()))
+  ((response-promise-fn r-p) #:headers headers))
+
+;;
+;; single-response-promise-in-list
+;;
+(provide/contract
+ (single-response-promise-in-list (-> (listof any/c) (or/c #f response-promise?))))
+;;
+(define (single-response-promise-in-list lst)
+  (and-let* (((and (length= lst 1)))
+             (elt (first lst))
+             ((response-promise? (first lst))))
+    elt))
+
+;;
+;; final-prep-of-response
+;;
+(provide/contract
+ (final-prep-of-response (-> (or/c response? response-promise?) response?)))
+;;
+(define (final-prep-of-response response-or-promise)
+  (if (response-promise? response-or-promise)
+      (response-from-promise response-or-promise)
+      (let ((result (xexpr->de-grouped-xexprs response-or-promise)))
+        (if (and (length= result 1) (response? (first result)))
+            (first result)
+            (list-response result)))))

@@ -80,18 +80,22 @@
            (receive (fresh-sesh-id sesh-iden) (make-fresh-session)
              (cookied-response "sesh" fresh-sesh-id
                                body ...))
-           `(group ,body ...))))))
+           (let ((body-lst (list body ...)))
+             (or (single-response-promise-in-list body-lst)
+                 `(group ,@body-lst))))))))
 
 (define (cookied-response cookie-key-str cookie-val-str
                           #:expire-in (expire-in THIRTY_DAYS)
                           . content-lst)
-  (list-response content-lst
-                 #:extras (list (make-header #"Set-Cookie"
-                                             (string->bytes/utf-8
-                                              (format "~A=~A; expires=~A; path=~A"
-                                                      cookie-key-str cookie-val-str
-                                                      (cookie-expiry-time expire-in)
-                                                      "/"))))))
+  (let ((headers (list (make-header #"Set-Cookie"
+                                    (string->bytes/utf-8
+                                     (format "~A=~A; expires=~A; path=~A"
+                                             cookie-key-str cookie-val-str
+                                             (cookie-expiry-time expire-in)
+                                             "/"))))))
+    (aif (single-response-promise-in-list content-lst)
+         (response-from-promise it #:headers headers)
+         (list-response content-lst #:extras headers))))
 
 (define (cookie-expiry-time secs-from-now)
   (date->string (time-utc->date (make-time 'time-utc 0
