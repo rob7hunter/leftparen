@@ -16,12 +16,12 @@
          THIRTY_DAYS)
 
 ;; returns #f or seconds
-(define (created-when rec)
-  (rec-prop rec 'created-at))
+(define (created-when rec #:timestamp-key (timestamp-key 'created-at))
+  (rec-prop rec timestamp-key))
 
 ;; returns "" if no creation time of given rec is known
-(define (created-when-str rec)
-  (aif (created-when rec)
+(define (created-when-str rec #:timestamp-key (timestamp-key 'created-at))
+  (aif (created-when rec #:timestamp-key timestamp-key)
        (let* ((now (current-seconds))
               (mins (minutes-since it #:now now))
               (hours (hours-since it #:now now))
