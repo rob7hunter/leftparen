@@ -44,13 +44,20 @@
     (updated ,(atom-time-str (current-seconds)))
     (summary ,item-summary)
     (content ,item-content)))
-
-;;Rss autodiscovery feed include.
+;;
+;; rss-inc
+;;
+;; Function to include the browser feed autodiscovery link in your page.
+;;
 (define (rss-inc feed-url)
   `(link ((href ,feed-url) (rel "alternate") (type "application/rss+xml")
           (title "Sitewide RSS Feed"))))
 
-;;Main wrapper function for rss 1.0
+;;
+;; rss-wrapper
+;;
+;; Main wrapper function to create an RSS 1.0 feed.
+;;
 (define (rss-wrapper about
                      channel-title
                      channel-link
@@ -58,7 +65,7 @@
                      channel-image
                      item-list
                      . body)
- (list-response #:type #"text/xml"
+  (list-response #:type #"text/xml"
                  (list (raw-str "<?xml version=\"1.0\"?>")
                        `(rdf:RDF
                          ((xmlns "http://purl.org/rss/1.0/")
@@ -68,25 +75,38 @@
                           (title ,channel-title)
                           (link ,channel-link)
                           (description
-                          
                            ,channel-description)
                           (image ((rdf:resource ,channel-image)))
                           (items 
-                                 (rdf:Seq  
-                                  ,@item-list)))
+                           (rdf:Seq  
+                            ,@item-list)))
                          ,@body))))
-;;Rss list creator 
+
+;;
+;; rss-li
+;;
+;; RSS list element creator.
+;;
 (define (rss-li resource-link)
   `(rdf:li ((resource ,resource-link))))
 
-;;Creation of rss items
+;;
+;; rss-item
+;;
+;; Creation of RSS items.
+;;
 (define (rss-item rdf-about item-title item-link item-description)
   `(item
      ((rdf:about ,rdf-about))
      (title () ,item-title)
      (link () ,item-link)
      (description () ,item-description)))
-;;Creation of rss textinput items
+
+;;
+;; rss-textinput
+;;
+;; Creation of RSS textinput items.
+;;
 (define (rss-textinput about text-title text-description text-name text-link)
   `(textinput
     ((rdf:about ,about))
