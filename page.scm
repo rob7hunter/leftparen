@@ -1,6 +1,7 @@
 #lang scheme/base
 
-(require (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5))
+(require net/url
+         (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5))
          (planet "web.scm" ("soegaard" "web.plt" 2 1))
          (planet "digest.ss" ("soegaard" "digest.plt" 1 1))
          "util.scm"
@@ -12,6 +13,7 @@
 (provide define-page
          define-session-page
          page
+         page?
          design
          **
          page-url
@@ -163,4 +165,11 @@
 (define (redirect-to-page page-name . args)
   (redirect-to (apply controller-url page-name args)))
 
-(define page-url controller-url)
+(define (page-url page #:absolute (absolute #f))
+  (let ((rel-url (controller-url page)))
+    (if absolute
+        (url->string (combine-url/relative (string->url (setting *WEB_APP_URL*))
+                                           rel-url))
+        rel-url)))
+
+(define page? controller?)

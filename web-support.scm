@@ -5,7 +5,7 @@
          net/url
          scheme/serialize
          "contract-lp.ss"
-         (planet "web.scm" ("soegaard" "web.plt" 2 1))
+         (planet "web.scm" ("soegaard" "web.plt" 2 (= 1)))
          )
 
 (provide request-all-bindings
