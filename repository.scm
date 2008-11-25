@@ -111,10 +111,12 @@
 ;; if id is already provided then don't overwrite
 (define (fresh-rec-from-data data
                              #:stamp-time (stamp-time #f)
-                             #:id-length (id-length #f))
-  (let* ((id (or (assoc-val 'id data) (if id-length
-                                          (fresh-id #:id-length id-length)
-                                          (fresh-id))))
+                             #:id-length (id-length #f)
+                             #:id (id #f))
+  (let* ((id (or (assoc-val 'id data)
+                 (cond (id id)
+                       (id-length (fresh-id #:id-length id-length))
+                       (else (fresh-id)))))
          (rec (make-rec data id)))
     (when stamp-time (rec-set-prop! rec 'created-at (current-seconds)))
     rec))
