@@ -56,14 +56,11 @@
  form-markup
  grab-user-input
 
- ;;Feeds 
+ ;; feeds 
+ atom-feed
  atom-item
- atom-inc
- atom-wrapper
- rss-inc
- rss-wrapper
+ rss-feed
  rss-item
- rss-li
  
  ;; records and the data repository
  rec-prop
@@ -145,7 +142,6 @@
  **
  page-url
  redirect-to-page
- atom-wrapper
  js-inc
  css-inc
  versioned-file-reference

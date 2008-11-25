@@ -7,8 +7,7 @@
          "web-support.scm"
          "session.scm"
          "settings.scm"
-         "time.scm"
-         "feed.ss")
+         "time.scm")
 
 (provide define-page
          define-session-page
@@ -17,7 +16,6 @@
          **
          page-url
          redirect-to-page
-         atom-wrapper
          js-inc
          css-inc
          versioned-file-reference
@@ -147,6 +145,13 @@
 
 (define (css-inc css-filename)
   `(link ((rel "stylesheet") (type "text/css") (href ,css-filename))))
+
+(define (atom-inc feed-url)
+  `(link ((rel "alternate") (type "application/atom+xml") (href ,feed-url))))
+
+(define (rss-inc feed-url #:title (title "RSS feed"))
+  `(link ((href ,feed-url) (rel "alternate") (type "application/rss+xml")
+          (title ,title))))
 
 ;; filename should be relative to htdocs directory
 ;; XXX I'm not sure this will actually work (does the # trigger a new file refresh?)

@@ -4,8 +4,7 @@
          (lib "xml.ss" "xml")
          net/url
          scheme/serialize
-         (rename-in scheme/contract
-                    (any c:any))
+         "contract-lp.ss"
          (planet "web.scm" ("soegaard" "web.plt" 2 1))
          )
 
