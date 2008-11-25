@@ -8,8 +8,7 @@
          "session.scm"
          "settings.scm"
          "time.scm"
-         "atom.ss"
-         "rss.ss")
+         "feed.ss")
 
 (provide define-page
          define-session-page

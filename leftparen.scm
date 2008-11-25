@@ -21,8 +21,7 @@
          "profiler.scm"
          "log.scm"
          "task-queue.scm"
-         "atom.ss"
-         "rss.ss"
+         "feed.ss"
          )
 
 (provide
