@@ -130,6 +130,7 @@
  ;; js
  js-script-invoke
  js-array
+ js-hash
  js-quote
  js-call
  js-call-on-load
