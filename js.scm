@@ -4,6 +4,7 @@
 
 (provide js-script-invoke
          js-array
+         js-hash
          js-quote
          js-call
          js-call-on-load
@@ -15,6 +16,13 @@
 
 (define (js-array scheme-lst)
   (string-append "[" (string-join scheme-lst ", ") "]"))
+
+(define (js-hash scheme-hash)
+  (string-append
+   "{ "
+   (string-join (hash-map scheme-hash (lambda (k v) (format "~A:~A" (js-quote k) v)))
+                ", ")
+   "}"))
 
 (define (js-quote thing)
   (cond ((number? thing) (number->string thing))
