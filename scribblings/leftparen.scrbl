@@ -180,6 +180,65 @@ As an example, here is the complete page code for a web app that allows users to
            "No secret for you.")))
 ]
 
+@subsection{Feeds}
+
+You can create Atom or RSS feeds in your web app.  A feed in LeftParen is just a page crafted in a paricular way.  The core functions involved are @scheme[atom-feed] and @scheme[rss-feed]:
+
+@defproc[(atom-feed (atom-feed-page page?)
+		    (#:feed-title feed-title string?)
+		    (#:feed-updated/epoch-seconds updated-seconds integer?)
+		    (#:author-name author-name string?)
+		    (#:feed-description feed-description (or/c #f string?) #f)
+		    (#:feed-id feed-id string? THE_URL_OF_THE_GIVEN_ATOM_FEED_PAGE)
+		    (#:related-content-link related-content-link string? THE_LINK_TO_YOUR_WEB_APP)
+		    (#:items atom-items (list-of atom-item?) '()))
+                    response/full?]
+
+@defproc[(rss-feed (rss-feed-page page?)
+		   (#:feed-title feed-title string?)
+		   (#:feed-description feed-description string?)
+		   (#:related-content-link related-content-link string? THE_LINK_TO_YOUR_WEB_APP)
+		   (#:items rss-items (list-of rss-item?) '()))
+                   response/full?]
+
+The @scheme[#:items] argument in each of these functions is a list of items constructed with @scheme[atom-item] and @scheme[rss-item]:
+
+@defproc[(atom-item (#:title title string?)
+		    (#:url url string?)
+		    (#:updated-epoch-seconds updated-seconds integer?)
+		    (#:content content (or/c #f string?) #f))
+		    atom-item?]
+
+@defproc[(rss-item (#:title title string?)
+		   (#:url url string?)
+		   (#:content content (or/c #f string?) #f))
+		   rss-item?]
+
+Here's an example Atom feed page:
+
+@schemeblock[
+(define-page (article-feed-page req)
+  #:blank #t
+  (atom-feed article-feed-page
+             #:feed-title "LeftParen blog"
+             #:feed-description "On LeftParen..."
+             #:feed-updated/epoch-seconds (current-seconds)
+             #:author-name "LP staffers"
+             #:items (list
+                      (atom-item #:title "Status update..."
+                                 #:url "http://blog.../50308696"
+                                 #:updated-epoch-seconds
+				 (current-seconds)
+                                 #:content "I’m nearing a...")
+                      (atom-item #:title "LeftParen 0.3..."
+                                 #:updated-epoch-seconds
+				 (current-seconds)
+                                 #:url "http://blog.../51814971"
+                                 #:content "Tonight I..."))))
+]
+
+Note that while using @scheme[current-seconds] for timestamps does satisfy the interface, it's not really appropriate since these times are supposed to indicated freshness of the data.  If basing your feed off of records, you might consider using @scheme[created-when].
+
 @section{About/Acknowledgements}
 
 LeftParen was written by @link["http://robhunter.org"]{Rob Hunter}, but it builds heavily on (and, in fact, often directly incorporates) the work of @link["http://untyped.com/"]{Untyped} (@link["http://planet.plt-scheme.org/display.ss?package=instaservlet.plt&owner=untyped"]{instaservlet} and @link["http://planet.plt-scheme.org/display.ss?package=dispatch.plt&owner=untyped"]{dispatch}), @link["http://scheme.dk/blog/"]{Jens Axel Soegaard} (@link["http://planet.plt-scheme.org/display.ss?package=web.plt&owner=soegaard"]{web.plt}), and of course, @link["http://www.plt-scheme.org/"]{PLT Scheme}.
