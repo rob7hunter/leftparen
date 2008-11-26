@@ -30,7 +30,7 @@
                  (#:feed-description (or/c #f string?) #:feed-id string?
                   #:related-content-link string? #:items (listof atom-item?))
                  response/full?)))
-;;                 
+;;
 (define (atom-feed atom-feed-page
                    #:feed-title feed-title
                    #:feed-updated/epoch-seconds feed-updated
@@ -74,15 +74,6 @@
             (id ,url)
             (updated ,(atom-time-str (atom-item-updated atom-item)))
             ,@(splice-if (aand (atom-item-content atom-item) `(content ,it))))))
-
-;;
-;; rss-inc
-;;
-;; Function to include the browser feed auto-discovery link in your page.
-;;
-(define (rss-inc feed-url)
-  `(link ((href ,feed-url) (rel "alternate") (type "application/rss+xml")
-          (title "Sitewide RSS Feed"))))
 
 ;;
 ;; rss-feed

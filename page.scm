@@ -65,8 +65,8 @@
               #:raw-header (raw-header '())
               #:css (css '())
               #:js (js '())
-              #:atom-feed (atom-feed '())
-              #:rss-feed (rss-feed '())
+              #:atom-feed-page (atom-feed-page #f)
+              #:rss-feed-page (rss-feed-page #f)
               #:title (title "a LeftParen web app")
               #:body-attrs (body-attrs '())
               #:body-wrap (body-wrap (lambda (body) body))
@@ -89,8 +89,10 @@
           (blank returned-body) ; the type of response is default (text/html)
           (a-design (a-design returned-body))
           (else (let ((main `(html (head ,@(map css-inc css)
-                                         ,@(map atom-inc atom-feed)
-                                         ,@(map rss-inc rss-feed)
+                                         ,@(splice-if atom-feed-page
+                                                      (atom-inc (page-url atom-feed-page)))
+                                         ,@(splice-if rss-feed-page
+                                                      (rss-inc (page-url rss-feed-page)))
                                          ,@(map js-inc js)
                                          ,@(map raw-str raw-header)
                                          (title ,title))
