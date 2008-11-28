@@ -52,7 +52,6 @@
   (generate-file-with-expressions
    #:dir-must-exist #t
    (build-path project-path "serve.scm")
-   #f
    `(require ,(expr-for-lp-require "leftparen.scm")
              "app.scm"
              "main.scm")
@@ -69,7 +68,6 @@
   (generate-file-with-expressions
    #:dir-must-exist #t
    (build-path project-path "app.scm")
-   #f
    (make-raw "#lang scheme/base\n")
    `(require ,(expr-for-lp-require "leftparen.scm"))
    (make-raw "")
@@ -81,7 +79,6 @@
   (generate-file-with-expressions
    #:dir-must-exist #t
    (build-path project-path "main.scm")
-   #f
    (make-raw "#lang scheme/base\n")
    `(require ,(expr-for-lp-require "leftparen.scm")
              "app.scm")
@@ -94,7 +91,6 @@
   (generate-file-with-expressions
    #:dir-must-exist #t
    (build-path project-path "settings-localhost.scm")
-   #f
    `(require ,(expr-for-lp-require "settings.scm"))
    (make-raw "")
    '(setting-set! *PORT* 8765)
@@ -110,28 +106,19 @@
   ;; script/server
   (generate-file-with-expressions
    (build-path project-path "script/server")
-   #f
    (make-raw "mzscheme -r serve.scm $1"))
-  
-  ;; script/generate
-  (generate-file-with-expressions
-   (build-path project-path "script/generate")
-   #t
-   `(require ,(expr-for-lp-require "generate-lib.scm"))
-   `(generate-from-path "." (current-command-line-arguments)))
   
   )
 
 (define-struct raw (str))
 
-(define (generate-file-with-expressions path-to-file is-script
+(define (generate-file-with-expressions path-to-file
                                         #:dir-must-exist (dir-must-exist #f)
                                         . expressions)
   (with-output-to-file-in-dir
    #:must-previously-exist dir-must-exist
    path-to-file
    (lambda ()
-     (when is-script (write-string "\":\"; exec mzscheme -r $0 \"$@\"\n"))
      (for-each (lambda (e)
                  (if (raw? e) (write-string (raw-str e)) (write e))
                  (write-string "\n")) expressions)
