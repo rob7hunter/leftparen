@@ -106,7 +106,8 @@
   ;; script/server
   (generate-file-with-expressions
    (build-path project-path "script/server")
-   (make-raw "mzscheme -r serve.scm $1"))
+   ;; we double-quote the executable name in case it's a path with, e.g., spaces:
+   (make-raw (format "\"~A\" -r serve.scm $1" (find-system-path 'exec-file))))
   
   )
 
