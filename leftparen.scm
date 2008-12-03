@@ -126,6 +126,7 @@
 
  ;; response
  cookied-response
+ list-response
 
  ;; js
  js-script-invoke
