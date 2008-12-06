@@ -112,16 +112,16 @@
                 #:css (css '())
                 #:js (js '())
                 #:title (title "a LeftParen web app")
-                #:atom-feed (atom-feed '())
-                #:rss-feed (rss-feed '())
+                #:atom-feed-page (atom-feed-page #f)
+                #:rss-feed-page (rss-feed-page #f)
                 #:doc-type (doc-type #f) ; automatically "rawed" for you
                 #:body-attrs (body-attrs '())
                 #:body-wrap (body-wrap (lambda (body) body)))
   (lambda (body) (page #:doc-type doc-type
                        #:raw-header raw-header
                        #:css css
-                       #:atom-feed atom-feed
-                       #:rss-feed rss-feed
+                       #:atom-feed-page atom-feed-page
+                       #:rss-feed-page rss-feed-page
                        #:js js
                        #:title title
                        #:body-attrs body-attrs
@@ -167,8 +167,8 @@
 (define (redirect-to-page page-name . args)
   (redirect-to (apply controller-url page-name args)))
 
-(define (page-url page #:absolute (absolute #f))
-  (let ((rel-url (controller-url page)))
+(define (page-url page #:absolute (absolute #f) . page-args)
+  (let ((rel-url (apply controller-url page page-args)))
     (if absolute
         (url->string (combine-url/relative (string->url (setting *WEB_APP_URL*))
                                            rel-url))
