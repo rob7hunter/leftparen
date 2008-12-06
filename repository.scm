@@ -20,6 +20,7 @@
          load-one-where
          fresh-rec-from-data
          only-rec-of-type
+         if-rec-of-type
          is-descendant?
          find-parent
          find-ancestor
@@ -44,6 +45,14 @@
        (if (and rec-iden (rec-type-is? rec-iden 'type))
            (begin body ...)
           (e "Unauthorized access."))))))
+
+(define-syntax if-rec-of-type
+  (syntax-rules ()
+    ((_ rec-id type (rec-iden) then-clause else-clause)
+     (let ((rec-iden (and (record-id-stored? rec-id) (load-rec rec-id))))
+       (if (and rec-iden (rec-type-is? rec-iden 'type))
+           then-clause
+           else-clause)))))
 
 (define (store-rec! r)
   (cache-store r)
