@@ -29,6 +29,7 @@
 
          response-promise?
          ;; single-response-promise-in-list (via contract)
+         ;; single-response/full-in-list (via contract)
          ;; response-promise-to-redirect (via contract)
          ;; response-from-promise (via contract)
          
@@ -233,7 +234,19 @@
 (define (single-response-promise-in-list lst)
   (and-let* (((and (length= lst 1)))
              (elt (first lst))
-             ((response-promise? (first lst))))
+             ((response-promise? elt)))
+    elt))
+
+;;
+;; single-response/full-in-list
+;;
+(provide/contract
+ (single-response/full-in-list (-> (listof any/c) (or/c #f response/full?))))
+;;
+(define (single-response/full-in-list lst)
+  (and-let* (((and (length= lst 1)))
+             (elt (first lst))
+             ((response/full? elt)))
     elt))
 
 ;;

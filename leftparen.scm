@@ -89,6 +89,7 @@
  fresh-rec-from-data
  same-rec?
  only-rec-of-type
+ if-rec-of-type
  rec-type-is?
  is-descendant?
  find-parent

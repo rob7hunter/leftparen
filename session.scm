@@ -82,6 +82,7 @@
                                body ...))
            (let ((body-lst (list body ...)))
              (or (single-response-promise-in-list body-lst)
+                 (single-response/full-in-list body-lst)
                  `(group ,@body-lst))))))))
 
 (define (cookied-response cookie-key-str cookie-val-str
