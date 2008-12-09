@@ -83,7 +83,7 @@
            (let ((body-lst (list body ...)))
              (or (single-response-promise-in-list body-lst)
                  (single-response/full-in-list body-lst)
-                 `(group ,@body-lst))))))))
+                 (list-response body-lst))))))))
 
 (define (cookied-response cookie-key-str cookie-val-str
                           #:expire-in (expire-in THIRTY_DAYS)

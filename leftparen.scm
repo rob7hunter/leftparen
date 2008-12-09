@@ -28,7 +28,7 @@
 
  ;; the work of others:
  (except-out (all-from-out (planet "web.scm" ("soegaard" "web.plt" 2 1)))
-             comment?)
+             comment? redirect-to) ; we use our own modification of redirect-to
  (all-from-out (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5)))
  (all-from-out (planet "instaservlet.ss" ("untyped" "instaservlet.plt" 1 7)))
  
@@ -145,6 +145,7 @@
  **
  page-url
  redirect-to-page
+ (rename-out (response-promise-to-redirect redirect-to))
  js-inc
  css-inc
  versioned-file-reference

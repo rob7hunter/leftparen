@@ -83,6 +83,7 @@
              (last body))))
     (cond (redirect-to (response-promise-to-redirect redirect-to))
           ((response/full? returned-body) returned-body)
+          ((response-promise? returned-body) returned-body)
           (plain-text (basic-response (list returned-body)
                                       ;; Hey, this is probably where we go all unicode...
                                       #:type #"text/plain;  charset=us-ascii"))
