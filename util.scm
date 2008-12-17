@@ -94,6 +94,7 @@
          alist-cons
          alist-merge
          receive
+         list-join
          
          aif
          awhen
@@ -428,6 +429,23 @@
 (define (alist-merge . alists)
   (delete-duplicates! (concatenate (reverse alists))
                       (lambda (pair1 pair2) (eq? (car pair1) (car pair2)))))
+
+;;
+;; list-join
+;;
+;; (-> (listof any?) any? (listof any?))
+;;
+;; Analagous to string-join.
+;; E.g., (list-join '(a b c) "hi!") => (a "hi" b "hi" c)
+;;
+(define (list-join lst joiner)
+  (concatenate (pair-fold-right (lambda (pair acc)
+                                  (let ((elt (car pair)))
+                                    (cons (if (empty? (cdr pair))
+                                              (list elt)
+                                              (list elt joiner))
+                                          acc)))
+                                '() lst)))
 
 (define (alist-key-filter fn alist)
   (filter (match-lambda ((list-rest k v) (fn k))) alist))
