@@ -436,7 +436,7 @@
 ;; (-> (listof any?) any? (listof any?))
 ;;
 ;; Analagous to string-join.
-;; E.g., (list-join '(a b c) "hi!") => (a "hi" b "hi" c)
+;; E.g., (list-join '(a b c) '(x x)) => (a (x x) b (x x) c)
 ;;
 (define (list-join lst joiner)
   (concatenate (pair-fold-right (lambda (pair acc)
