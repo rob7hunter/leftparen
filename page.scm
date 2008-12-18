@@ -80,7 +80,7 @@
              (if (not redirect-to)
                  (e "Unless you are doing a #:redirect-to, a body is required.")
                  #f)
-             (last body))))
+             (body-wrap (last body)))))
     (cond (redirect-to (response-promise-to-redirect redirect-to))
           ((response/full? returned-body) returned-body)
           ((response-promise? returned-body) returned-body)
@@ -97,7 +97,7 @@
                                          ,@(map js-inc js)
                                          ,@(map raw-str raw-header)
                                          (title ,title))
-                                   (body ,body-attrs ,(body-wrap returned-body)))))
+                                   (body ,body-attrs ,returned-body))))
                   (if doc-type
                       `(group ,(raw-str doc-type) ,main)
                       main))))))
