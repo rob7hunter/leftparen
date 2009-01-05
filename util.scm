@@ -80,6 +80,7 @@
          hash-filter-map
          hash-hash-map
          hash-find
+         alist->hash
          bucketed-hash-add!
          fold ;(iterative-style)
          fold-right ;(recursive-style)
@@ -136,8 +137,7 @@
          show
          prn
          
-         match-lambda
-         match
+         (all-from-out scheme/match)
          
          xexpr->string ; XXX implement yourself!
          
@@ -232,6 +232,11 @@
      (let ((ht (make-hash)))
        (hash-set! ht `key val) ...
        ht))))
+
+(define (alist->hash alist)
+  (let ((ht (make-hash)))
+    (for-each (match-lambda ((list-rest k v) (hash-set! ht k v))) alist)
+    ht))
 
 (define (vector-for-each fn . vs)
   (let ((len (vector-length (first vs))))
