@@ -92,6 +92,7 @@
                   #:use-if-exists (use-if-exists #f)
                   #:skip-br (skip-br #f)
                   #:class (css-class #f)
+                  #:action (action "/")
                   #:auto-submit (auto-submit #f)
                   #:return-form-obj (return-form-obj #f)
                   #:on-done (on-done (lambda (rec) (redirect-to (setting *WEB_APP_URL*)))))
@@ -133,7 +134,7 @@
                          finally))))))
     (let* ((form-id (number->string (random 1000000)))
            (f `(form
-                ((action "/")
+                ((action ,action)
                  (id ,form-id)
                  ,@(splice-if css-class `(class ,css-class))
                  (method "post")
