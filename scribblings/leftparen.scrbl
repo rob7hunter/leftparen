@@ -6,29 +6,28 @@
 Website: @link["http://leftparen.com"]{http://leftparen.com}
 
 LeftParen is a framework for quickly creating web apps.  It runs on
-PLT Scheme v4.1.3 or greater.  LeftParen is released under an @link["http://github.com/vegashacker/leftparen/tree/master/MIT-LICENSE.txt"]{MIT License}.  The source is available on @link["http://github.com/vegashacker/leftparen/tree/master"]{github}.
+PLT Scheme v4.1.3.9 or greater. (@bold{This is not-yet-officially-released}, so you'll have to download it from the @link["http://pre.plt-scheme.org/installers/"]{PLT Pre-Relese Software page}.)  LeftParen is released under an @link["http://github.com/vegashacker/leftparen/tree/master/MIT-LICENSE.txt"]{MIT License}.  The source is available on @link["http://github.com/vegashacker/leftparen/tree/master"]{github}.
 
 @section{Installing LeftParen}
 
-You'll need PLT Scheme v4.1.3 or greater installed.
+You'll need PLT Scheme v4.1.3@bold{.9} or greater installed.
 
 Make sure that @scheme[mzscheme] is in your path.  You should be ready
 to go if you can do this:
 
 @verbatim{
 % mzscheme
-Welcome to MzScheme v4.1.3...
+Welcome to MzScheme v4.1.3.9...
 > 
 }
 
-Installing LeftParen is done behind the scenes with a @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require].  See @secref{tutorials} for examples of this.  When you
-first issue one of these @scheme[require] commands, you'll automatically download the LeftParen files to your local PLaneT cache.  This can sometimes take a few moments, so be prepared to wait a bit.
+Installing LeftParen is done automatically when you perform various @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require] commands.  See @secref{tutorials} for examples of this.  On my system, starting a LeftParen web app for the first time (with a freshly installed version of PLT), takes about 5 minutes. (The time is spent downloading and installing a bunch of files into your local PLaneT repository).
 
 @section[#:tag "tutorials"]{Tutorials}
 
 @subsection{Hello, World}
 
-We're going to make a project called @tt{hello-world}.  Change to the directory that you'd like to make the project in.  Then issue
+We're going to make a project called @tt{hello-world}.  Change to the directory that you'd like to create the project in.  Then issue
 
 @verbatim{% mzscheme -e '(require (planet vegashacker/leftparen:4:0/generate))' hello-world}
 
@@ -44,10 +43,9 @@ LeftParen has automatically generated everything we need to run our web app---we
 
 @verbatim{
 % ./script/server
-Web server started on port 8765
-Listening on IP address: 127.0.0.1
-Type stop to stop the server and exit
-Type restart to restart the server
+Populating caches...
+Done populating cache.
+Server is ready at http://localhost:8765/ (ctrl-c to stop it).
 }
 
 Point your browser to @link["http://localhost:8765"]{http://localhost:8765} and you should see a familiar greeting:
@@ -56,7 +54,7 @@ Point your browser to @link["http://localhost:8765"]{http://localhost:8765} and 
 
 @subsection{Blogerton the Blog}
 
-Now let's try implementing the true "hello world" of web apps---a blog.  First, execute the following commands from the directory in which you want to create your project directory:
+Now let's try implementing the true "hello world" of web apps---a blog.  First, execute the following commands from the directory in which you want to create your project:
 
 @verbatim{
 % mzscheme -e '(require (planet vegashacker/leftparen:4:0/generate))' blogerton
