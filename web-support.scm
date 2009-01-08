@@ -1,11 +1,14 @@
 #lang scheme/base
 
+;; This differs from web-export.ss in that these are ones that we wrote and aren't
+;; included in PLT libs.
+
 (require (file "util.scm")
-         (lib "xml.ss" "xml")
+         xml
          net/url
          scheme/serialize
+         "web-export.ss"
          "contract-lp.ss"
-         (planet "web.scm" ("soegaard" "web.plt" 2 (= 1)))
          )
 
 (provide request-all-bindings
@@ -17,7 +20,6 @@
          web-link
          img
          raw-str
-         with-binding ; from web.plt
          basic-response
          xexpr-if
          url+query

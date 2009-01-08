@@ -3,9 +3,12 @@
 ;; form validation
 
 (require "util.scm"
-         "record.scm")
+         "record.scm"
+         "contract-lp.ss")
 
-(provide validate field-validate)
+(provide validate
+         ;; field-validate (via contract)
+         )
 
 ;; constructs a fn suitable for passing in to the #:validate keyword of a form call
 ;; the fn : rec -> content
@@ -20,13 +23,24 @@
           #f
           (string-join errors "\n")))))
 
-(define (field-validate field-name (pred #f))
+;;
+;; field-validate
+;;
+(provide/contract (field-validate (->* (symbol?)
+                                       ((or/c #f (-> any/c any/c))
+                                        #:msg-fn (-> any/c string?))
+                                       (-> rec? (or/c #f string?)))))
+;;
+(define (field-validate field-name
+                        (pred #f)
+                        #:msg-fn (msg-fn (lambda (bad-val)
+                                           (format "'~A' is an invalid value for field ~A."
+                                                   field-name bad-val))))
   (lambda (rec)
     (aif (rec-prop rec field-name)
          (if pred
              (if (pred it)
                  #f
-                 (format "Validation error triggered by failure of ~A on field '~A'."
-                         pred field-name))
+                 (msg-fn it))
              #f)
          (format "Missing field '~A'." field-name))))

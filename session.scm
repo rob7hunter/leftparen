@@ -1,6 +1,6 @@
 #lang scheme/base
 
-(require (planet "web.scm" ("soegaard" "web.plt" 2 1))
+(require "web-export.ss"
          "web-support.scm"
          (file "util.scm")
          (file "time.scm")

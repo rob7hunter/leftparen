@@ -7,34 +7,18 @@
 (require "util.scm"
          (only-in mzlib/file normalize-path))
 
-(provide generate generate-from-path)
+(provide generate-project)
 
-(define PLANET_MAJOR_VERISON 3)
+(define PLANET_MAJOR_VERISON 4)
 (define PLANET_MINOR_VERSION 0)
 
-(define (generate args-vec)
-  (generate-from-args-list (vector->list args-vec)))
+(define (generate-project cmd-line-args-vec)
+  (match cmd-line-args-vec
+         ((vector project-path)
+          (generate-project-from-path project-path))
+         (else (e "You must provide exactly one argument to generate--a path to a new project directory."))))
 
-(define (generate-from-path project-path args-vec)
-  (generate-from-args-list (cons-to-end project-path (vector->list args-vec))))
-
-;; Note: in order for this to work with generate-from-path, you need to make sure that
-;; for every command, the last argument is always the project path.
-(define (generate-from-args-list args)
-  (match args
-         ((list "project" fresh-project-path)
-          (generate-project-dir fresh-project-path))
-         ((list "script" project-path)
-          (generate-script-dir project-path))
-         ((list "scm" project-path)
-          (generate-basic-scm-files project-path))
-         ((list project-path)
-          (e "You need to provide a command to the generate script."))
-         ((list-rest command rst)
-          (e "Generate command \"~A\" not understood." command))
-         (else (e "Generate expression \"generate ~A\" not understood." args))))
-
-(define (generate-project-dir fresh-project-path)
+(define (generate-project-from-path fresh-project-path)
   (if (directory-exists? fresh-project-path)
       (e "The directory ~A already exists." fresh-project-path)
       (begin (ensure-existence-of-dir! fresh-project-path)
@@ -45,7 +29,8 @@
              (ensure-existence-of-dir! (build-path fresh-project-path "htdocs/js"))
              (ensure-existence-of-dir! (build-path fresh-project-path "htdocs/i"))
              (generate-basic-scm-files fresh-project-path)
-             (generate-script-dir fresh-project-path))))
+             (generate-script-dir fresh-project-path)
+             (generate-htdocs-files fresh-project-path))))
 
 (define (generate-basic-scm-files project-path)
   ;; serve.scm
@@ -58,12 +43,9 @@
    (make-raw "")
    '(load-server-settings)
    (make-raw "")
-   '(serve my-app
-           #:listen-ip (setting *LISTEN_IP*)
-           #:port (setting *PORT*)
-           #:htdocs-path '("htdocs"))
+   '(serve my-app)
    )
-
+  
   ;; app.scm
   (generate-file-with-expressions
    #:dir-must-exist #t
@@ -111,6 +93,12 @@
   
   )
 
+(define (generate-htdocs-files project-path)
+  (ensure-existence-of-dir! project-path #:must-previously-exist #t)
+  (generate-file-with-expressions
+   (build-path project-path "htdocs/page-not-found.html")
+   (make-raw "<html><body>Page not found.</body></html>")))
+
 (define-struct raw (str))
 
 (define (generate-file-with-expressions path-to-file
@@ -134,7 +122,7 @@
           (e "The directory ~A cannot be found." dir-path))
       (or (directory-exists? dir-path)
           (begin (make-directory dir-path)
-                 (display (format "Created directory ~A.\n" dir-path))))))
+                 (display (format "Created directory ~A\n" dir-path))))))
 
 ;; it's an error if filename in path already exists
 (define (with-output-to-file-in-dir path-to-file thunk
@@ -146,8 +134,3 @@
 (define (expr-for-lp-require filename-rel-to-lib-root)
   `(planet ,filename-rel-to-lib-root ("vegashacker" "leftparen.plt"
                                       ,PLANET_MAJOR_VERISON ,PLANET_MINOR_VERSION)))
-
-;; consumes a (maybe relative) project-path
-;; XXX rid?
-;;(define (absolute-project-path-str project-path)
-;;  (path->string (normalize-path (build-path project-path))))

@@ -7,7 +7,6 @@
          (file "web-support.scm")
          (file "files.scm")
          "settings.scm"
-         (planet "web.scm" ("soegaard" "web.plt" 2 1))
          (lib "url.ss" "net"))
 
 (provide form

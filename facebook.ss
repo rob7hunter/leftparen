@@ -2,17 +2,18 @@
 
 ;; A PLT Scheme interface to the Facebook API.
 ;; NOT READY FOR USE YET!  Just a preliminary checkin...
+;; (One reason this isn't ready is that you have to hack dherman's json.plt planet lib
+;; to get this to work.)
 
 (require (file "settings.scm")
          (file "util.scm")
          "contract-lp.ss"
+         "web-export.ss"
          (file "web-support.scm")
          "page.scm"
          "form.scm"
          "util.scm"
          "js.scm"
-         (planet "web.scm" ("soegaard" "web.plt" 2 (= 1)))
-         web-server/private/request-structs ; should be ... web-server/http/request-structs
          (only-in (planet "json.ss" ("dherman" "json.plt" 1 (= 1))) (read read-json)))
 
 (provide facebook-fn

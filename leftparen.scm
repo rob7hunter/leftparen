@@ -1,11 +1,13 @@
 #lang scheme/base
 
 (require scheme/match
-         (planet "web.scm" ("soegaard" "web.plt" 2 1))
-         (planet "instaservlet.ss" ("untyped" "instaservlet.plt" 1 7))
-         (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5))
+         (planet untyped/dispatch:1:7/dispatch)
+         web-server/servlet-env
+         web-server/dispatchers/dispatch
+         web-server/configuration/responders
          "util.scm"
          "settings.scm"
+         "web-export.ss"
          "web-support.scm"
          "record.scm"
          "repository.scm"
@@ -22,15 +24,13 @@
          "log.scm"
          "task-queue.scm"
          "feed.ss"
+         "facebook.ss"
          )
 
 (provide
 
  ;; the work of others:
- (except-out (all-from-out (planet "web.scm" ("soegaard" "web.plt" 2 1)))
-             comment? redirect-to) ; we use our own modification of redirect-to
- (all-from-out (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5)))
- (all-from-out (planet "instaservlet.ss" ("untyped" "instaservlet.plt" 1 7)))
+ (all-from-out (planet untyped/dispatch:1:7/dispatch))
  
  ;; web server
  serve
@@ -200,37 +200,56 @@
  task-inspector-lock
  task-inspector-num-tasks-thunk
 
+ ;; facebook
+ facebook-fn
+ define-facebook-required-login-page
+ facebook-require-login
+ facebook-session-key
+ facebook-error
+ facebook-uid
+ facebook-form
+ facebook-complex-val
+ facebook-create-object
+ facebook-strict-error
  )
 
 (declare-setting *APP_VERSION* 1)
-
+(declare-setting *PAGE_NOT_FOUND_FILE* "page-not-found.html")
 (declare-setting *CATCH-EXCEPTION?* (lambda (exn) #t))
 (declare-setting *EXCEPTION->XEXPR* (lambda (exn)
-                                      ((error-display-handler) (exn-message exn) exn)
-                                      "Page not found."))
+                                      (if (exn:dispatcher? exn)
+                                          ;; then it really just means that dispatch
+                                          ;; failed to find an appropriate URL match, so we
+                                          ;; need to look for static files:
+                                          (next-dispatcher)
+                                          ;; otherwise, it is an actual error...
+                                          (begin
+                                            ((error-display-handler)
+                                             (exn-message exn) exn)
+                                            "Error on page."))))
 
-;; consumes a web-app; passes its keyword arguments to go! (part of instaservlet)
-(define serve
-  (make-keyword-procedure
-   (lambda (kws kw-vals . reg-args)
-     (match reg-args
-            ((list)
-             (e "The serve function requires you to pass an app as the first argument."))
-            ((list web-app)
-             (begin
-               (populate-caches)
-               (keyword-apply go!
-                              kws
-                              kw-vals
-                              (list (lambda (req)
-                                       (let ((catch? (setting *CATCH-EXCEPTION?*))
-                                             (err (setting *EXCEPTION->XEXPR*)))
-                                         (with-handlers ((catch? err))
-                                           (final-prep-of-response
-                                            (handle-closure-in-req
-                                             req
-                                             (dispatch req web-app))))))))))))))
-
+(define (serve web-app)
+  (populate-caches)
+  (server-log "Server is ready at ~A (ctrl-c to stop it)." (setting *WEB_APP_URL*))
+  (serve/servlet #:command-line? #t
+                 #:launch-browser? #f
+                 #:servlet-path "/"
+                 #:server-root-path (build-path ".")
+                 #:servlet-regexp #rx""
+                 #:file-not-found-responder
+                 (gen-file-not-found-responder (build-path
+                                                "htdocs"
+                                                (setting *PAGE_NOT_FOUND_FILE*)))
+                 #:listen-ip (setting *LISTEN_IP*)
+                 #:port (setting *PORT*)
+                 (lambda (req)
+                   (let ((catch? (setting *CATCH-EXCEPTION?*))
+                         (err (setting *EXCEPTION->XEXPR*)))
+                     (with-handlers ((catch? err))
+                       (final-prep-of-response
+                        (handle-closure-in-req req
+                                               (dispatch req web-app))))))))
+                 
 (define-syntax define-app
   (syntax-rules ()
     ((_ app-name

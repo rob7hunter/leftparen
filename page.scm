@@ -1,10 +1,10 @@
 #lang scheme/base
 
 (require net/url
-         (planet "dispatch.ss" ("untyped" "dispatch.plt" 1 5))
-         (planet "web.scm" ("soegaard" "web.plt" 2 1))
+         (planet untyped/dispatch:1:7/dispatch)
          (planet "digest.ss" ("soegaard" "digest.plt" 1 1))
          "util.scm"
+         "web-export.ss"
          "web-support.scm"
          "session.scm"
          "settings.scm"

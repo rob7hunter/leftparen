@@ -19,7 +19,6 @@
          (for-syntax scheme/base)
          scheme/match
          (lib "pretty.ss")
-         (planet "web.scm" ("soegaard" "web.plt" 2 1)) ; XXX get rid of this dependency
          (lib "unit.ss")
 
          (only-in  file/md5 md5)
@@ -138,8 +137,6 @@
          prn
          
          (all-from-out scheme/match)
-         
-         xexpr->string ; XXX implement yourself!
          
          splice-if
          asplice-if

@@ -1,27 +1,27 @@
 #lang scribble/doc
 @(require scribble/manual)
 
-@title{LeftParen 0.4 Documentation}
+@title{LeftParen 0.5 Documentation}
 
 Website: @link["http://leftparen.com"]{http://leftparen.com}
 
 LeftParen is a framework for quickly creating web apps.  It runs on
-PLT Scheme v4.1 or greater.  LeftParen is released under an @link["http://github.com/vegashacker/leftparen/tree/master/MIT-LICENSE.txt"]{MIT License}.  The source is available on @link["http://github.com/vegashacker/leftparen/tree/master"]{github}.
+PLT Scheme v4.1.3 or greater.  LeftParen is released under an @link["http://github.com/vegashacker/leftparen/tree/master/MIT-LICENSE.txt"]{MIT License}.  The source is available on @link["http://github.com/vegashacker/leftparen/tree/master"]{github}.
 
 @section{Installing LeftParen}
 
-You'll need PLT Scheme v4.1 or greater installed.
+You'll need PLT Scheme v4.1.3 or greater installed.
 
 Make sure that @scheme[mzscheme] is in your path.  You should be ready
 to go if you can do this:
 
 @verbatim{
 % mzscheme
-Welcome to MzScheme v4.1...
+Welcome to MzScheme v4.1.3...
 > 
 }
 
-Installing LeftParen is done behind the scenes with a @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require].  See @secref{tutorials} for an example of this.  When you
+Installing LeftParen is done behind the scenes with a @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require].  See @secref{tutorials} for examples of this.  When you
 first issue one of these @scheme[require] commands, you'll automatically download the LeftParen files to your local PLaneT cache.  This can sometimes take a few moments, so be prepared to wait a bit.
 
 @section[#:tag "tutorials"]{Tutorials}
@@ -30,7 +30,7 @@ first issue one of these @scheme[require] commands, you'll automatically downloa
 
 We're going to make a project called @tt{hello-world}.  Change to the directory that you'd like to make the project in.  Then issue
 
-@verbatim{% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 3 0)))' project hello-world}
+@verbatim{% mzscheme -e '(require (planet vegashacker/leftparen:4:0/generate))' hello-world}
 
 This will create a @tt{hello-world} project directory for you.  In this directory you'll find the @tt{script} directory, which contains some useful scripts.  All paths are relative to this project directory, so when calling scripts, you always want to be at the project root.
 
@@ -38,7 +38,7 @@ This will create a @tt{hello-world} project directory for you.  In this director
 
 We need to make the scripts executable:
 
-@verbatim{% chmod u+x script/*}
+@verbatim{% chmod u+x script/server}
 
 LeftParen has automatically generated everything we need to run our web app---we just need to start the server (again, you should be at the project root directory):
 
@@ -59,9 +59,9 @@ Point your browser to @link["http://localhost:8765"]{http://localhost:8765} and 
 Now let's try implementing the true "hello world" of web apps---a blog.  First, execute the following commands from the directory in which you want to create your project directory:
 
 @verbatim{
-% mzscheme -e '(require (planet "bootstrap.scm" ("vegashacker" "leftparen.plt" 3 0)))' project blogerton
+% mzscheme -e '(require (planet vegashacker/leftparen:4:0/generate))' blogerton
 % cd blogerton
-% chmod u+x script/*
+% chmod u+x script/server
 }
 
 @subsubsection{Changes to @tt{app.scm}}
@@ -241,9 +241,9 @@ Note that while using @scheme[current-seconds] for timestamps does satisfy the i
 
 @section{About/Acknowledgements}
 
-LeftParen was written by @link["http://robhunter.org"]{Rob Hunter}, but it builds heavily on (and, in fact, often directly incorporates) the work of @link["http://untyped.com/"]{Untyped} (@link["http://planet.plt-scheme.org/display.ss?package=instaservlet.plt&owner=untyped"]{instaservlet} and @link["http://planet.plt-scheme.org/display.ss?package=dispatch.plt&owner=untyped"]{dispatch}), @link["http://scheme.dk/blog/"]{Jens Axel Soegaard} (@link["http://planet.plt-scheme.org/display.ss?package=web.plt&owner=soegaard"]{web.plt}), and of course, @link["http://www.plt-scheme.org/"]{PLT Scheme}.
+LeftParen was written by @link["http://robhunter.org"]{Rob Hunter}, but it builds heavily on (and, in fact, often directly incorporates) the work of @link["http://untyped.com/"]{Untyped} (@link["http://planet.plt-scheme.org/display.ss?package=dispatch.plt&owner=untyped"]{dispatch}), @link["http://scheme.dk/blog/"]{Jens Axel Soegaard} (@link["http://planet.plt-scheme.org/display.ss?package=web.plt&owner=soegaard"]{web.plt}), and of course, @link["http://www.plt-scheme.org/"]{PLT Scheme}.
 
-@subsection{Contributors}
+@subsection{Code Contributors}
 
 @itemize[
 @item{Bill Hager}
