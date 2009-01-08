@@ -21,7 +21,7 @@ Welcome to MzScheme v4.1.3.9...
 > 
 }
 
-Installing LeftParen is done automatically when you perform various @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require] commands.  See @secref{tutorials} for examples of this.  On my system, starting a LeftParen web app for the first time (with a freshly installed version of PLT), takes about 5 minutes. (The time is spent downloading and installing a bunch of files into your local PLaneT repository).
+Installing LeftParen is done automatically when you perform various @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require] commands.  See @secref{tutorials} for examples of this.  On my system, starting a LeftParen web app for the first time (with a freshly installed version of PLT Scheme), takes about 5 minutes. (The time is spent downloading and installing a bunch of files into your local PLaneT repository.)
 
 @section[#:tag "tutorials"]{Tutorials}
 
@@ -239,7 +239,9 @@ Note that while using @scheme[current-seconds] for timestamps does satisfy the i
 
 @section{About/Acknowledgements}
 
-LeftParen was written by @link["http://robhunter.org"]{Rob Hunter}, but it builds heavily on (and, in fact, often directly incorporates) the work of @link["http://untyped.com/"]{Untyped} (@link["http://planet.plt-scheme.org/display.ss?package=dispatch.plt&owner=untyped"]{dispatch}), @link["http://scheme.dk/blog/"]{Jens Axel Soegaard} (@link["http://planet.plt-scheme.org/display.ss?package=web.plt&owner=soegaard"]{web.plt}), and of course, @link["http://www.plt-scheme.org/"]{PLT Scheme}.
+LeftParen was initially written by @link["http://robhunter.org"]{Rob Hunter}.  It makes use of @link["http://planet.plt-scheme.org/display.ss?package=dispatch.plt&owner=untyped"]{Dispatch} by @link["http://untyped.com/"]{Untyped}, @link["http://planet.plt-scheme.org/display.ss?package=with-bindings.plt&owner=jaymccarthy"]{with-bindings} by @link["http://jay-mccarthy.blogspot.com/"]{Jay McCarthy}, and of course, @link["http://www.plt-scheme.org/"]{PLT Scheme}.
+
+LeftParen used to use @link["http://planet.plt-scheme.org/display.ss?package=web.plt&owner=soegaard"]{WEB} by @link["http://scheme.dk/blog/"]{Jens Axel Soegaard} and @link["http://planet.plt-scheme.org/display.ss?package=instaservlet.plt&owner=untyped"]{Instaservlet} (now deprecated) by @link["http://untyped.com/"]{Untyped}, which were both very helpful in getting the project started.
 
 @subsection{Code Contributors}
 

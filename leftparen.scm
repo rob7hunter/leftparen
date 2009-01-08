@@ -2,6 +2,7 @@
 
 (require scheme/match
          (planet untyped/dispatch:1:7/dispatch)
+         (planet jaymccarthy/with-bindings:1:2/with-bindings)
          web-server/servlet-env
          web-server/dispatchers/dispatch
          web-server/configuration/responders
@@ -31,6 +32,10 @@
 
  ;; the work of others:
  (all-from-out (planet untyped/dispatch:1:7/dispatch))
+ (all-from-out (planet jaymccarthy/with-bindings:1:2/with-bindings))
+
+ ;; built-in PLT tools:
+ request-bindings
  
  ;; web server
  serve
@@ -211,6 +216,7 @@
  facebook-complex-val
  facebook-create-object
  facebook-strict-error
+
  )
 
 (declare-setting *APP_VERSION* 1)
