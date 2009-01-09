@@ -21,7 +21,15 @@ Welcome to MzScheme v4.1.3.9...
 > 
 }
 
-Installing LeftParen is done automatically when you perform various @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require] commands.  See @secref{tutorials} for examples of this.  On my system, starting a LeftParen web app for the first time (with a freshly installed version of PLT Scheme), takes about 5 minutes. (The time is spent downloading and installing a bunch of files into your local PLaneT repository.)
+Installing LeftParen is done automatically when you perform various @link["http://planet.plt-scheme.org/"]{PLaneT} @scheme[require] commands.  See @secref{tutorials} for examples of this.  On my system, starting a LeftParen web app for the first time (with a freshly installed version of PLT Scheme), takes about an hour. (The time is spent downloading and installing a bunch of files into your local PLaneT repository.)
+
+At any point, if you see an error like
+
+@verbatim{
+make-directory: cannot make directory: /home/rob/.plt-scheme/planet/300/4.1.3.9 (Permission denied; errno=13)
+}
+
+try re-running the command with @tt{sudo} (you won't need to do this everytime--just the once).
 
 @section[#:tag "tutorials"]{Tutorials}
 
