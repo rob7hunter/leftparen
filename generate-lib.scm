@@ -10,7 +10,7 @@
 (provide generate-project)
 
 (define PLANET_MAJOR_VERISON 4)
-(define PLANET_MINOR_VERSION 0)
+(define PLANET_MINOR_VERSION 1)
 
 (define (generate-project cmd-line-args-vec)
   (match cmd-line-args-vec
@@ -133,4 +133,4 @@
 
 (define (expr-for-lp-require filename-rel-to-lib-root)
   `(planet ,filename-rel-to-lib-root ("vegashacker" "leftparen.plt"
-                                      ,PLANET_MAJOR_VERISON ,PLANET_MINOR_VERSION)))
+                                      ,PLANET_MAJOR_VERISON (= ,PLANET_MINOR_VERSION))))
