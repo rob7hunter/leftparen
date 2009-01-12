@@ -1,7 +1,7 @@
 #lang scribble/doc
 @(require scribble/manual)
 
-@title{LeftParen 0.5 Documentation}
+@title{LeftParen 0.51 Documentation}
 
 Website: @link["http://leftparen.com"]{http://leftparen.com}
 
@@ -37,7 +37,7 @@ try re-running the command with @tt{sudo} (you won't need to do this everytime--
 
 We're going to make a project called @tt{hello-world}.  Change to the directory that you'd like to create the project in.  Then issue
 
-@verbatim{% mzscheme -e '(require (planet vegashacker/leftparen:4:0/generate))' hello-world}
+@verbatim{% mzscheme -e '(require (planet vegashacker/leftparen:4:=1/generate))' hello-world}
 
 This will create a @tt{hello-world} project directory for you.  In this directory you'll find the @tt{script} directory, which contains some useful scripts.  All paths are relative to this project directory, so when calling scripts, you always want to be at the project root.
 
@@ -65,7 +65,7 @@ Point your browser to @link["http://localhost:8765"]{http://localhost:8765} and 
 Now let's try implementing the true "hello world" of web apps---a blog.  First, execute the following commands from the directory in which you want to create your project:
 
 @verbatim{
-% mzscheme -e '(require (planet vegashacker/leftparen:4:0/generate))' blogerton
+% mzscheme -e '(require (planet vegashacker/leftparen:4:=1/generate))' blogerton
 % cd blogerton
 % chmod u+x script/server
 }
