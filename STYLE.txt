@@ -44,5 +44,7 @@ Style guide to writing code for the LeftParen project:
   mode version.  This locks in that version so that if someone is using LeftParen in, say,
   production, they don't get automatically upgraded.  E.g.,
   
-  (planet "foo.ss" ("somebody" "baz.plt" 2 (= 1)))
+  (planet "foo.ss" ("somebody" "baz.plt" 2 (= 1)))  or
+  (planet somebody/baz:2:=1/foo)
+
 

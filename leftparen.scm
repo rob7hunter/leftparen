@@ -1,8 +1,8 @@
 #lang scheme/base
 
 (require scheme/match
-         (planet untyped/dispatch:1:7/dispatch)
-         (planet jaymccarthy/with-bindings:1:2/with-bindings)
+         (planet untyped/dispatch:1:=7/dispatch)
+         (planet jaymccarthy/with-bindings:1:=2/with-bindings)
          web-server/servlet-env
          web-server/dispatchers/dispatch
          web-server/configuration/responders
@@ -31,8 +31,8 @@
 (provide
 
  ;; the work of others:
- (all-from-out (planet untyped/dispatch:1:7/dispatch))
- (all-from-out (planet jaymccarthy/with-bindings:1:2/with-bindings))
+ (all-from-out (planet untyped/dispatch:1:=7/dispatch))
+ (all-from-out (planet jaymccarthy/with-bindings:1:=2/with-bindings))
 
  ;; built-in PLT tools:
  request-bindings

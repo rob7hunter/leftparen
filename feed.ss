@@ -7,7 +7,6 @@
          "web-support.scm"
          "settings.scm"
          "page.scm")
-         ; xxx used? (planet "uuid-v4.ss" ("zitterbewegung" "uuid-v4.plt" 1 0)))
 
 (provide ;; atom-feed (via contract)
          ;; atom-item (via contract)

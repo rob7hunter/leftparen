@@ -2,7 +2,7 @@
 
 (require "util.scm"
          "record.scm"
-         (planet "rfc3339.ss" ("neil" "rfc3339.plt" 1 0)))
+         (planet "rfc3339.ss" ("neil" "rfc3339.plt" 1 (= 0))))
 
 (provide created-when
          created-when-str
