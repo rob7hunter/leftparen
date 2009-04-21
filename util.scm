@@ -5,8 +5,8 @@
                   reverse! zip unzip1 unzip2 (remove removef)
                   delete-duplicates! concatenate any iota
                   alist-cons break cons* delete-duplicates every fold-right reduce find
-                  lset-difference lset-union pair-fold-right span take delete
-                  drop fold pair-fold delete!
+                  lset-difference lset-union pair-fold-right unfold span take take-while
+                  delete drop fold pair-fold delete! list-index
                   )
          (lib "26.ss" "srfi")
          (lib "2.ss" "srfi")
@@ -42,6 +42,7 @@
          unzip2
          concatenate
          take
+         take-while
          take-up-to
          drop
          drop-up-to
@@ -88,6 +89,7 @@
          pair-fold
          pair-fold-right
          file-line-fold
+         unfold
          cons*
          cons-to-end
          listify
@@ -95,6 +97,7 @@
          alist-merge
          receive
          list-join
+         list-index
          
          aif
          awhen
