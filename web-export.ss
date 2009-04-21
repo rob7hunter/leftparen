@@ -5,15 +5,18 @@
 ;; own LeftParen projects if you want.
 
 (require web-server/http/request-structs
-         web-server/http/response-structs
          web-server/http/bindings
          web-server/http/redirect
-         net/url)
+         web-server/http/response-structs
+         net/url
+         xml
+         "util.scm")
 
 (provide make-header
          header?
          
          make-response/full
+         response/c
          response?
          response/full?
          response/incremental?
@@ -40,3 +43,13 @@
          
          )
 
+(define (response? obj)
+  (or (response/basic? obj)
+      (and (pair? obj)
+           (bytes? (car obj))
+           (list? (cdr obj))
+           (every (lambda (x) (or (string? x) (bytes? x)) (cdr obj))))
+      (xexpr? obj)))
+
+           
+                                                         

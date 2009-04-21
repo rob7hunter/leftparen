@@ -1,23 +1,23 @@
 #lang scribble/doc
 @(require scribble/manual)
 
-@title{LeftParen 0.51 Documentation}
+@title{LeftParen 0.6 Documentation}
 
 Website: @link["http://leftparen.com"]{http://leftparen.com}
 
 LeftParen is a framework for quickly creating web apps.  It runs on
-PLT Scheme v4.1.3.9 or greater. (@bold{This is not-yet-officially-released}, so you'll have to download it from the @link["http://pre.plt-scheme.org/installers/"]{PLT Pre-Relese Software page}.)  LeftParen is released under an @link["http://github.com/vegashacker/leftparen/tree/master/MIT-LICENSE.txt"]{MIT License}.  The source is available on @link["http://github.com/vegashacker/leftparen/tree/master"]{github}.
+PLT Scheme v4.1.5.  LeftParen is released under an @link["http://github.com/vegashacker/leftparen/tree/master/MIT-LICENSE.txt"]{MIT License}.  The source is available on @link["http://github.com/vegashacker/leftparen/tree/master"]{github}.
 
 @section{Installing LeftParen}
 
-You'll need PLT Scheme v4.1.3@bold{.9} or greater installed.
+You'll need PLT Scheme v4.1.5 installed.  More recent versions may work, but they are untested.
 
 Make sure that @scheme[mzscheme] is in your path.  You should be ready
 to go if you can do this:
 
 @verbatim{
 % mzscheme
-Welcome to MzScheme v4.1.3.9...
+Welcome to MzScheme v4.1.5...
 > 
 }
 
@@ -26,7 +26,7 @@ Installing LeftParen is done automatically when you perform various @link["http:
 At any point, if you see an error like
 
 @verbatim{
-make-directory: cannot make directory: /home/rob/.plt-scheme/planet/300/4.1.3.9 (Permission denied; errno=13)
+make-directory: cannot make directory: /home/rob/.plt-scheme/planet/300/4.1.5 (Permission denied; errno=13)
 }
 
 try re-running the command with @tt{sudo} (you won't need to do this everytime--just the once).
@@ -37,7 +37,7 @@ try re-running the command with @tt{sudo} (you won't need to do this everytime--
 
 We're going to make a project called @tt{hello-world}.  Change to the directory that you'd like to create the project in.  Then issue
 
-@verbatim{% mzscheme -e '(require (planet vegashacker/leftparen:4:=1/generate))' hello-world}
+@verbatim{% mzscheme -e '(require (planet vegashacker/leftparen:5:=1/generate))' hello-world}
 
 This will create a @tt{hello-world} project directory for you.  In this directory you'll find the @tt{script} directory, which contains some useful scripts.  All paths are relative to this project directory, so when calling scripts, you always want to be at the project root.
 
@@ -65,7 +65,7 @@ Point your browser to @link["http://localhost:8765"]{http://localhost:8765} and 
 Now let's try implementing the true "hello world" of web apps---a blog.  First, execute the following commands from the directory in which you want to create your project:
 
 @verbatim{
-% mzscheme -e '(require (planet vegashacker/leftparen:4:=1/generate))' blogerton
+% mzscheme -e '(require (planet vegashacker/leftparen:5:=1/generate))' blogerton
 % cd blogerton
 % chmod u+x script/server
 }

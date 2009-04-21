@@ -1,7 +1,7 @@
 #lang scheme/base
 
 (require net/url
-         (planet untyped/dispatch:1:=7/dispatch)
+         (planet untyped/dispatch:2:=1/dispatch)
          "util.scm"
          "web-export.ss"
          "web-support.scm"

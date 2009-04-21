@@ -9,7 +9,7 @@
 
 (provide generate-project)
 
-(define PLANET_MAJOR_VERISON 4)
+(define PLANET_MAJOR_VERISON 5)
 (define PLANET_MINOR_VERSION 1)
 
 (define (generate-project cmd-line-args-vec)

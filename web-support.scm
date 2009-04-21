@@ -51,7 +51,7 @@
                  ;; optional
                  (#:type bytes? #:extras list?)
                  ;; returns
-                 response?)))
+                 response/c)))
 ;;
 (define (list-response content-lst #:type (type #"text/html") #:extras (extras '()))
   (basic-response (append-map (lambda (content) (map xexpr->string
@@ -222,7 +222,7 @@
 ;; response-from-promise
 ;;
 (provide/contract
- (response-from-promise (->* (response-promise?) (#:headers (listof header?)) response?)))
+ (response-from-promise (->* (response-promise?) (#:headers (listof header?)) response/c)))
 ;;
 (define (response-from-promise r-p #:headers (headers '()))
   ((response-promise-fn r-p) #:headers headers))
@@ -255,7 +255,7 @@
 ;; final-prep-of-response
 ;;
 (provide/contract
- (final-prep-of-response (-> (or/c response? response-promise?) response?)))
+ (final-prep-of-response (-> (or/c response/c response-promise?) response/c)))
 ;;
 (define (final-prep-of-response response-or-promise)
   (if (response-promise? response-or-promise)
