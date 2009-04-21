@@ -18,7 +18,6 @@
          make-response/full
          response/c
          response?
-         response/full?
          response/incremental?
          response/basic?
 

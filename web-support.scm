@@ -54,8 +54,9 @@
                  response/c)))
 ;;
 (define (list-response content-lst #:type (type #"text/html") #:extras (extras '()))
-  (basic-response (append-map (lambda (content) (map xexpr->string
-                                                     (xexpr->de-grouped-xexprs content)))
+  (basic-response (append-map (lambda (content)
+                                (map (lambda (c) (string->bytes/utf-8 (xexpr->string c)))
+                                     (xexpr->de-grouped-xexprs content)))
                               content-lst)
                   #:type type
                   #:extras extras))
@@ -64,7 +65,7 @@
   ;; right now we always no-cache.  we'll probably eventually want something more
   ;; subtle.
   (let ((no-cache (make-header #"Cache-Control" (string->bytes/utf-8 "no-cache;"))))
-    (make-response/full 200 "all good" (current-seconds)
+    (make-response/full 200 #"all good" (current-seconds)
                         type (cons no-cache extras)
                         content-lst)))
 
