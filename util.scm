@@ -196,7 +196,8 @@
 (define-syntax prn
   (syntax-rules ()
     ((_ expr ...)
-     (begin (show expr) ... ""))))
+     (begin (show expr) ...
+            "You are trying to use the return value from the prn function.  Bad you."))))
 
 ;; returns VAL X LST
 (define (random-choice-and-remove lst)
