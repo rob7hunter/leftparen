@@ -19,7 +19,6 @@
          make-fresh-session
          remove-session
          cookied-response
-         cookie-val
          flash-create!
          flash-get!
          )
@@ -96,7 +95,8 @@
                                              "/"))))))
     (aif (single-response-promise-in-list content-lst)
          (response-from-promise it #:headers headers)
-         (list-response content-lst #:extras headers))))
+         (or (single-response/full-in-list content-lst)
+             (list-response content-lst #:extras headers)))))
 
 (define (cookie-expiry-time secs-from-now)
   (date->string (time-utc->date (make-time 'time-utc 0

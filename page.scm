@@ -70,7 +70,6 @@
               #:body-attrs (body-attrs '())
               #:body-wrap (body-wrap (lambda (body) body))
               #:blank (blank #f)
-              #:plain-text (plain-text #f)
               #:design (a-design #f)
               #:redirect-to (redirect-to #f)
               . body)
@@ -83,9 +82,6 @@
     (cond (redirect-to (response-promise-to-redirect redirect-to))
           ((response/full? returned-body) returned-body)
           ((response-promise? returned-body) returned-body)
-          (plain-text (basic-response (list returned-body)
-                                      ;; Hey, this is probably where we go all unicode...
-                                      #:type #"text/plain;  charset=us-ascii"))
           (blank returned-body) ; the type of response is default (text/html)
           (a-design (a-design returned-body))
           (else (let ((main `(html (head ,@(map css-inc css)

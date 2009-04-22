@@ -20,7 +20,7 @@
          web-link
          img
          raw-str
-         basic-response
+         ;; basic-response (via contract)
          xexpr-if
          url+query
          url->string
@@ -61,6 +61,14 @@
                   #:type type
                   #:extras extras))
 
+(provide/contract
+ (basic-response (->*
+                  ;; required
+                  ((listof bytes?))
+                  ;; optional
+                  (#:type bytes? #:extras (listof header?))
+                  ;; returns
+                  response/c)))
 (define (basic-response content-lst #:type (type #"text/html") #:extras (extras '()))
   ;; right now we always no-cache.  we'll probably eventually want something more
   ;; subtle.
