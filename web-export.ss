@@ -20,6 +20,7 @@
          response?
          response/incremental?
          response/basic?
+         response/full?
 
          binding:form?
          binding-id
