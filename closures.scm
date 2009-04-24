@@ -18,11 +18,16 @@
 (define-syntax body-as-closure-key
   (syntax-rules ()
     ((_ (req-identifier) body ...)
-     (add-closure! (lambda (req-identifier) body ...)))
+     (let ((key (make-closure-key)))
+       (body-as-closure-key (req-identifier key) body ...)))
     ((_ (req-identifier key-identifier) body ...)
      (let ((key-identifier (make-closure-key)))
        (add-closure! #:key key-identifier
-                     (lambda (req-identifier) body ...))))))
+                     (lambda (req-identifier)
+                       ;; first cleanup after itself
+                       (hash-remove! CLOSURES key-identifier)
+                       ;; then run the actual closure...
+                       body ...))))))
 
 ;;
 ;; body-as-url
