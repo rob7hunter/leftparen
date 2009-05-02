@@ -59,6 +59,9 @@
 ;; * #:doc-type should be #f or a str.  If str, it is automatically "rawed".
 ;; * #:redirect-to should be #f or a URI str.  If str, the body is evaluated but not
 ;;   returned (since you are asking to redirect).
+;; * #:page -- Use in define-(session-)page calls when you have generated the page
+;;             with a call to the page function.  i.e., it gives you some abstraction
+;;             powers.
 ;; 
 (define (page #:doc-type (doc-type #f)
               #:raw-header (raw-header '())
@@ -72,30 +75,34 @@
               #:blank (blank #f)
               #:design (a-design #f)
               #:redirect-to (redirect-to #f)
+              #:page (page #f)
               . body)
-  (let ((returned-body
-         (if (empty? body)
-             (if (not redirect-to)
-                 (e "Unless you are doing a #:redirect-to, a body is required.")
-                 #f)
-             (body-wrap (last body)))))
-    (cond (redirect-to (response-promise-to-redirect redirect-to))
-          ((response/full? returned-body) returned-body)
-          ((response-promise? returned-body) returned-body)
-          (blank returned-body) ; the type of response is default (text/html)
-          (a-design (a-design returned-body))
-          (else (let ((main `(html (head ,@(map css-inc css)
-                                         ,@(splice-if atom-feed-page
-                                                      (atom-inc (page-url atom-feed-page)))
-                                         ,@(splice-if rss-feed-page
-                                                      (rss-inc (page-url rss-feed-page)))
-                                         ,@(map js-inc js)
-                                         ,@(map raw-str raw-header)
-                                         (title ,title))
-                                   (body ,body-attrs ,returned-body))))
-                  (if doc-type
-                      `(group ,(raw-str doc-type) ,main)
-                      main))))))
+  (or page
+      (let ((returned-body
+             (if (empty? body)
+                 (if (not redirect-to)
+                     (e "Unless you are doing a #:redirect-to, a body is required.")
+                     #f)
+                 (body-wrap (last body)))))
+        (cond (redirect-to (response-promise-to-redirect redirect-to))
+              ((response/full? returned-body) returned-body)
+              ((response-promise? returned-body) returned-body)
+              (blank returned-body) ; the type of response is default (text/html)
+              (a-design (a-design returned-body))
+              (else (let ((main `(html (head ,@(map css-inc css)
+                                             ,@(splice-if atom-feed-page
+                                                          (atom-inc
+                                                           (page-url atom-feed-page)))
+                                             ,@(splice-if rss-feed-page
+                                                          (rss-inc
+                                                           (page-url rss-feed-page)))
+                                             ,@(map js-inc js)
+                                             ,@(map raw-str raw-header)
+                                             (title ,title))
+                                       (body ,body-attrs ,returned-body))))
+                      (if doc-type
+                          `(group ,(raw-str doc-type) ,main)
+                          main)))))))
 
 ;;
 ;; design
