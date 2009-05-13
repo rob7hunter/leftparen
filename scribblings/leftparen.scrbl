@@ -1,7 +1,7 @@
 #lang scribble/doc
 @(require scribble/manual)
 
-@title{LeftParen 0.6 Documentation}
+@title{LeftParen 0.61 Documentation}
 
 Website: @link["http://leftparen.com"]{http://leftparen.com}
 
@@ -186,6 +186,8 @@ As an example, here is the complete page code for a web app that allows users to
            "No secret for you.")))
 ]
 
+Note that @scheme[aif] is available in the @secref{utilities} included with LeftParen.
+
 @subsection{Feeds}
 
 You can create Atom or RSS feeds in your web app.  A feed in LeftParen is just a page crafted in a paricular way.  The core functions involved are @scheme[atom-feed] and @scheme[rss-feed]:
@@ -244,6 +246,13 @@ Here's an example Atom feed page:
 ]
 
 Note that while using @scheme[current-seconds] for timestamps does satisfy the interface, it's not really appropriate since these times are supposed to indicated freshness of the data.  If basing your feed off of records, you might consider using @scheme[created-when].
+
+@section[#:tag "utilities"]{Utility Functions}
+
+Some @link["http://github.com/vegashacker/leftparen/commits/master/util.scm"]{miscellaneous utility functions} are available along with LeftParen.  To be able to use these functions, you'll need to require @tt{util.scm} at the top of your module.  Something like this is common:
+
+@schemeblock[(require (planet "leftparen.scm" ("vegashacker" "leftparen.plt" 5 (= 1)))
+		      (planet "util.scm" ("vegashacker" "leftparen.plt" 5 (= 1))))]
 
 @section{About/Acknowledgements}
 
