@@ -20,8 +20,8 @@
     ((_ (req-identifier) body ...)
      (let ((key (make-closure-key)))
        (body-as-closure-key (req-identifier key) body ...)))
-    ((_ (req-identifier key-identifier) body ...)
-     (let ((key-identifier (make-closure-key)))
+    ((_ (req-identifier key-expr) body ...)
+     (let ((key-identifier key-expr))
        (add-closure! #:key key-identifier
                      (lambda (req-identifier)
                        ;; first cleanup after itself

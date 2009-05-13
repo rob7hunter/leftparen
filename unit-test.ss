@@ -25,6 +25,19 @@
      (test-equal? "closures are usable only once"
                   (num-closures-in-memory)
                   0)
+
+     ;; now test manual closure keys
+     (test-equal? "just made a manual key'd closure"
+                  (begin (set! clos-key "some-key-i-made-up")
+                         (body-as-closure-key (req clos-key) "cool")
+                         (num-closures-in-memory))
+                  1)
+     (test-equal? "call the manual closure"
+                  (call-closure clos-key 'dummy-req)
+                  "cool")
+     (test-equal? "make sure manual closures clean up too"
+                  (num-closures-in-memory)
+                  0)
                          
      )))
 
