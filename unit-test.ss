@@ -13,7 +13,8 @@
      (test-equal? "numeric equality" 1              1        )
      (test-equal? "md5 hashing" (md5-string "hello") "5d41402abc4b2a76b9719d911017c592")
      (test-equal? "num closures in memory at start" (num-closures-in-memory) 0)
-     
+
+     ;; closure testing
      (test-equal? "after a closure made"
                   (begin (set! clos-key (body-as-closure-key (req) "hi"))
                          (num-closures-in-memory))
@@ -38,6 +39,19 @@
      (test-equal? "make sure manual closures clean up too"
                   (num-closures-in-memory)
                   0)
+
+     ;; test sticky closures
+     (test-equal? "make a sticky closure"
+                  (begin (set! clos-key (body-as-closure-key (req clos-key #:sticky)
+                                                             "sticky!"))
+                         (num-closures-in-memory))
+                  1)
+     (test-equal? "call the sticky closure"
+                  (call-closure clos-key 'dummy-req)
+                  "sticky!")
+     (test-equal? "make sure the sticky closure sticks"
+                  (num-closures-in-memory)
+                  1)
                          
      )))
 

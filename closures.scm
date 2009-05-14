@@ -15,28 +15,48 @@
          num-closures-in-memory
          )
 
-(define-syntax body-as-closure-key
+(define-syntax body-as-closure-key-aux
   (syntax-rules ()
-    ((_ (req-identifier) body ...)
-     (let ((key (make-closure-key)))
-       (body-as-closure-key (req-identifier key) body ...)))
-    ((_ (req-identifier key-expr) body ...)
-     (let ((key-identifier key-expr))
-       (add-closure! #:key key-identifier
-                     (lambda (req-identifier)
-                       ;; first cleanup after itself
-                       (hash-remove! CLOSURES key-identifier)
+    ((_ req-iden key-iden is-sticky-expr body ...)
+     (let ((is-sticky is-sticky-expr))
+       (add-closure! #:key key-iden
+                     (lambda (req-iden)
+                       ;; first cleanup after itself (if not sticky)
+                       (unless is-sticky (hash-remove! CLOSURES key-iden))
                        ;; then run the actual closure...
                        body ...))))))
+
+(define-syntax body-as-closure-key
+  (syntax-rules ()
+    ((_ (req-iden #:sticky) body ...)
+     (let ((key-iden (make-closure-key)))
+       (body-as-closure-key-aux req-iden key-iden #t body ...)))
+    ((_ (req-iden key-expr #:sticky) body ...)
+     (let ((key-iden key-expr))
+       (body-as-closure-key-aux req-iden key-iden #t body ...)))
+    ((_ (req-iden) body ...)
+     (let ((key-iden (make-closure-key)))
+       (body-as-closure-key-aux req-iden key-iden #f body ...)))
+    ((_ (req-iden key-expr) body ...)
+     (let ((key-iden key-expr))
+       (let ((key-iden key-expr))
+         (body-as-closure-key-aux req-iden key-iden #f body ...))))))
 
 ;;
 ;; body-as-url
 ;;
+;; Forms:
 ;; (body-as-url (req) body ...)
-;; or
 ;; (body-as-url (req fn-key) body ...)
-;; In the latter form, fn-key is the key that will be used to map to body.
-;; This provides a way for the developer to reuse fns in certain situations.
+;; (body-as-url (req #:sticky) body ...)
+;; (body-as-url (req fn-key #:sticky) body ...)
+;;
+;; If fn-key is given, it will be the key used to map to the body.
+;; (This provides a way for the developer to reuse fns in certain situations.)
+;; 
+;; If #:sticky appears at the end of the first argument, then the closure will not
+;; be removed form memory after it's invoked (on a server restart, however, all closures
+;; --regardless of stickiness--are cleared).
 ;;
 (define-syntax body-as-url
   (syntax-rules ()
