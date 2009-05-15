@@ -7,7 +7,7 @@
 (define version "0.61")
 
 (define release-notes
-  '((p "Updated to work with PLT 4.1.5.")))
+  '((p "Updated to work with PLT 4.1.5.; improved body-as-url and corresponding documentation.")))
 
 (define primary-file "leftparen.scm")
 
