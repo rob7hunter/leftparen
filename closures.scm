@@ -60,8 +60,8 @@
 ;;
 (define-syntax body-as-url
   (syntax-rules ()
-    ((_ (identifiers ...) body ...)
-     (closure-key->url (body-as-closure-key (identifiers ...) body ...)))))
+    ((_ (spec ...) body ...)
+     (closure-key->url (body-as-closure-key (spec ...) body ...)))))
 
 (define (closure-key->url clos-key)
   (format "~A?~A=~A"

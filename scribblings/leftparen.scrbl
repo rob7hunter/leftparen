@@ -167,6 +167,26 @@ When you define a session page, the session is automatically fetched for you (an
 
 @defproc[(session-put-val! (session session) (key symbol) (val any)) session]
 
+@subsection{Storing closures in URLs}
+
+LeftParen provides a simple way to create closures and attach them to a URL.  Using this technique is often much simpler than the more traditional encoding of values in a URL by hand.
+
+@defform[
+#:id body-as-url 
+(body-as-url (req-iden [key] [#:sticky]) body ...)
+]{Creates a URL which, when visited, will execute the given @scheme[body].  If @scheme[key] is provided, then it will be used as the id to represent the closure.  It's more common, however, to not pass your own key--in which case, a unique, random one will be chosen for you. @scheme[req-iden] will be bound to the request created when the link is executed and available for use in @scheme[body].  If @scheme[#:sticky] is provided, then the closure will be available for execution until the server is stopped.  Otherwise, it is available for execution just once.
+
+@schemeblock[
+(define-page (index-page req)
+  (let ((x 0))
+    (web-link "Click to increment"
+              (body-as-url (req)
+                           (set! x (+ x 1))
+                           (format "x is ~A" x)))))
+]
+
+This creates a link, which, when clicked, prints @tt{x is 1}.  If you reload the page, however, you'll see something like @tt{Expired or missing function 'q7c5ysd4935xhbhx2xbu'}.  Changing the first sub-form passed to @scheme[body-as-url] to @scheme[(req #:sticky)] makes it so that successive hits to the link result in increasing values of @scheme[x].
+}
 
 @subsection{Users}
 
